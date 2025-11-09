@@ -1,5 +1,6 @@
 package Logica;
 
+import Entidades.Arista;
 import Entidades.Grafo;
 import Entidades.Vertice;
 import java.awt.Color;
@@ -108,6 +109,37 @@ public class Busqueda {
         return orden;
     }
     
+    public List<Arista> kruskal(){
+     List<Arista> aristas = new ArrayList<>(grafo.getAristas());
+     List<Arista> mst = new ArrayList<>();
+     Map<Vertice,Vertice> padre = new HashMap<>();
+     
+     // Inicializa cada vertice como su propio conjunto
+        for (Vertice v: grafo.getVertices()) {
+            padre.put(v, v);
+        }
+    
+        aristas.sort(Comparator.comparingDouble(Arista::getPeso));
+        for (Arista a : aristas) {
+            Vertice u = a.getOrigen();
+            Vertice v = a.getDestino();
+            if(find(padre,u)!= find(padre,v)) {
+                mst.add(a);
+                union(padre,u,v);
+                u.setEstado(Color.YELLOW);
+                v.setEstado(Color.YELLOW);
+                repintarConRetraso();
+            }
+        }
+        for(Arista a : mst){
+            a.getOrigen().setEstado(Color.GREEN);
+            a.getDestino().setEstado(Color.GREEN);
+            repintarConRetraso();
+        }
+        
+        return mst;
+    }
+    
     private void repintarConRetraso() {
         SwingUtilities.invokeLater(panel::repaint);
         try {
@@ -116,4 +148,17 @@ public class Busqueda {
             System.out.println(e);
         }
     }
+    
+    private Vertice find(Map<Vertice, Vertice> padre, Vertice v) {
+    if (padre.get(v) != v)
+        padre.put(v, find(padre, padre.get(v)));
+    return padre.get(v);
+}
+
+private void union(Map<Vertice, Vertice> padre, Vertice a, Vertice b) {
+    Vertice ra = find(padre, a);
+    Vertice rb = find(padre, b);
+    if (ra != rb) padre.put(ra, rb);
+}
+
 }
