@@ -41,16 +41,19 @@ public class Interfaz extends JFrame {
         JButton bfsButton = new JButton("BFS desde vértice");
         JButton dfsCompletoButton = new JButton("DFS completo");
         JButton bfsCompletoButton = new JButton("BFS completo");
+        JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         dfsCompletoButton.addActionListener(e -> ejecutarDFSCompleto());
         bfsCompletoButton.addActionListener(e -> ejecutarBFSCompleto());
+        kruskalButton.addActionListener(e -> ejecutarKruskal());
         tablaButton.addActionListener(e -> mostrarTabla());
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(dfsCompletoButton);
         buttonPanel.add(bfsCompletoButton);
+        buttonPanel.add(kruskalButton);
         buttonPanel.add(tablaButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -106,6 +109,18 @@ public class Interfaz extends JFrame {
             SwingUtilities.invokeLater(panelGrafo::repaint);
             JOptionPane.showMessageDialog(this,
                     "Recorrido BFS completo: " + recorrido);
+        }).start();
+    }
+    
+    private void ejecutarKruskal(){
+        grafo.formatearColores();
+        panelGrafo.repaint();
+        new Thread(() -> {
+             List<Arista> mst = buscar.kruskal();
+             SwingUtilities.invokeLater(panelGrafo::repaint);
+             double pesoTotal = mst.stream().mapToDouble(Arista::getPeso).sum();
+             JOptionPane.showMessageDialog(this,"Arbol de expansion minima (Kruskal):\n" +
+                     mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
         }).start();
     }
     
