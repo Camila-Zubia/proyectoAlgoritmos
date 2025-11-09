@@ -156,15 +156,36 @@ public class Interfaz extends JFrame {
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
-        Vertice a = new Vertice("Nogales", 400, 80);              // Norte
-        Vertice b = new Vertice("Cananea", 550, 100);             // Noreste
-        Vertice c = new Vertice("Hermosillo", 420, 250);          // Centro
-        Vertice d = new Vertice("Guaymas", 420, 380);             // Sur centro
-        Vertice e = new Vertice("Cd. Obregon", 420, 470);         // Sur
-        Vertice f = new Vertice("Navojoa", 420, 540);             // Sur extremo
-        Vertice g = new Vertice("San Luis Río Colorado", 150, 100); // Noroeste
-        Vertice h = new Vertice("Puerto Peñasco", 200, 160);      // Noroeste costero
-        Vertice i = new Vertice("Caborca", 280, 200);  
+        Vertice a = new Vertice("Tuxtla Gutiérrez", 350, 330);
+        Vertice b = new Vertice("Tapachula de Córdova y Ordóñez", 470, 600);
+        Vertice c = new Vertice("San Cristóbal de Las Casas", 430, 330); 
+        Vertice d = new Vertice("Comitán de Domínguez", 560, 400); 
+        Vertice e = new Vertice("Heroica Chiapa de Corzo", 370, 330); 
+        Vertice f = new Vertice("Palenque", 560, 120); 
+        Vertice g = new Vertice("Cintalapa de Figueroa", 130, 300);
+        Vertice h = new Vertice("Ocosingo", 510, 280);
+        Vertice i = new Vertice("Ocozocoautla de Espinosa", 290, 320);
+        Vertice j = new Vertice("Tonalá", 150, 360);
+        Vertice k = new Vertice("Villaflores", 150, 350);
+        Vertice l = new Vertice("Berriozábal", 330, 290);
+        Vertice m = new Vertice("Huixtla", 440, 550);
+        Vertice n = new Vertice("Reforma", 310, 90);
+        Vertice o = new Vertice("Motozintla de Mendoza", 480, 560);
+        Vertice p = new Vertice("Arriaga", 100, 320);
+        Vertice q = new Vertice("Las Margaritas", 570, 370);
+        Vertice r = new Vertice("Frontera Comalapa", 490, 530);
+        Vertice s = new Vertice("Las Rosas", 540, 360);
+        Vertice t = new Vertice("Teopisca", 500, 340);
+        Vertice u = new Vertice("Suchiapa", 350, 345);
+        Vertice v = new Vertice("Mapastepec", 330, 520);
+        Vertice w = new Vertice("Cacahoatán", 500, 570);
+        Vertice x = new Vertice("Yajalón", 480, 150);
+        Vertice y = new Vertice("Pijijiapan", 270, 460);
+        Vertice z = new Vertice("Ciudad Hidalgo", 470, 630);
+        Vertice aa = new Vertice("Venustiano Carranza", 500, 410);
+        Vertice ab = new Vertice("Pichucalco", 310, 130);
+        Vertice ac = new Vertice("Acala", 230, 360);
+        Vertice ad = new Vertice("Simojovel de Allende", 380, 230);
 
         grafo.agregarVertice(a);
         grafo.agregarVertice(b);
@@ -175,18 +196,59 @@ public class Interfaz extends JFrame {
         grafo.agregarVertice(g);
         grafo.agregarVertice(h);
         grafo.agregarVertice(i);
+        grafo.agregarVertice(j);
+        grafo.agregarVertice(k);
+        grafo.agregarVertice(l);
+        grafo.agregarVertice(m);
+        grafo.agregarVertice(n);
+        grafo.agregarVertice(o);
+        grafo.agregarVertice(p);
+        grafo.agregarVertice(q);
+        grafo.agregarVertice(r);
+        grafo.agregarVertice(s);
+        grafo.agregarVertice(t);
+        grafo.agregarVertice(u);
+        grafo.agregarVertice(v);
+        grafo.agregarVertice(w);
+        grafo.agregarVertice(x);
+        grafo.agregarVertice(y);
+        grafo.agregarVertice(z);
+        grafo.agregarVertice(aa);
+        grafo.agregarVertice(ab);
+        grafo.agregarVertice(ac);
+        grafo.agregarVertice(ad);
 
-        grafo.agregarArista(a, b, 85.0);   // Nogales - Cananea
-        grafo.agregarArista(a, c, 270.0);  // Nogales - Hermosillo
-        grafo.agregarArista(b, c, 250.0);  // Cananea - Hermosillo
-        grafo.agregarArista(c, d, 130.0);  // Hermosillo - Guaymas
-        grafo.agregarArista(d, e, 150.0);  // Guaymas - Cd. Obregon
-        grafo.agregarArista(e, f, 70.0);   // Cd. Obregon - Navojoa
-        grafo.agregarArista(g, a, 290.0);  // San Luis - Nogales
-        grafo.agregarArista(g, i, 200.0);  // San Luis - Caborca
-        grafo.agregarArista(h, i, 220.0);  // Puerto Peñasco - Caborca
-        grafo.agregarArista(i, c, 220.0);  // Caborca - Hermosillo
-        grafo.agregarArista(f, e, 70.0);   // Navojoa - Obregón
+        grafo.agregarArista(a, e, 15.1);
+        grafo.agregarArista(e, c, 53.9);
+        grafo.agregarArista(a, u);
+        grafo.agregarArista(a, l);
+        grafo.agregarArista(l, i);
+        grafo.agregarArista(i, k);
+        grafo.agregarArista(i, g);
+        grafo.agregarArista(g, p);
+        grafo.agregarArista(p, j);
+        grafo.agregarArista(j, y);
+        grafo.agregarArista(y, v);
+        grafo.agregarArista(v, m);
+        grafo.agregarArista(m, b);
+        grafo.agregarArista(m, o);
+        grafo.agregarArista(b, w);
+        grafo.agregarArista(w, z);
+        grafo.agregarArista(o, r);
+        grafo.agregarArista(r, d);
+        grafo.agregarArista(d, q);
+        grafo.agregarArista(d, s);
+        grafo.agregarArista(s, t);
+        grafo.agregarArista(t, c);
+        grafo.agregarArista(e, ac);
+        grafo.agregarArista(e, ad);
+        grafo.agregarArista(e, ab);
+        grafo.agregarArista(a, u);
+        grafo.agregarArista(ab, n);
+        grafo.agregarArista(ac, aa);
+        grafo.agregarArista(t, h);
+        grafo.agregarArista(h, f);
+        grafo.agregarArista(h, x);
 
         SwingUtilities.invokeLater(() -> {
             Interfaz frame = new Interfaz(grafo);

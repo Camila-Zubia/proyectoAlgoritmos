@@ -9,13 +9,15 @@ import javax.swing.*;
 import java.util.List;
 
 public class PanelGrafo extends JPanel {
+    
     private Grafo grafo;
     private Vertice verticeSeleccionado = null;
-    private static final int RADIO = 20;
+    private static final int RADIO = 10;
+    private Image imagenFondo;
 
     public PanelGrafo(Grafo grafo) {
         this.grafo = grafo;
-        setBackground(Color.WHITE);
+        imagenFondo = new ImageIcon(getClass().getResource("/chiapas.jpeg")).getImage();
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -47,12 +49,13 @@ public class PanelGrafo extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (Arista a : grafo.getAristas()) {
             Vertice origen = a.getOrigen();
             Vertice destino = a.getDestino();
-            Color colorArista = origen.getEstado() != null ? origen.getEstado() : Color.BLACK;
+            Color colorArista = origen.getEstado() != null ? origen.getEstado() : Color.LIGHT_GRAY;
             g2.setColor(colorArista);
             g2.setStroke(new BasicStroke(2));
             dibujarAristaDirigida(g2, origen.getX(), origen.getY(), destino.getX(), destino.getY());
