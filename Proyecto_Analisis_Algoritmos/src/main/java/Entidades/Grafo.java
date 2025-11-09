@@ -4,7 +4,6 @@
  */
 package Entidades;
 
-import Entidades.Vertice;
 import java.awt.Color;
 import java.util.*;
 /**
@@ -12,6 +11,7 @@ import java.util.*;
  * @author lagar
  */
 public class Grafo {
+    
     private Map<Vertice, List<Arista>> adyacencias;
 
     public Grafo() {

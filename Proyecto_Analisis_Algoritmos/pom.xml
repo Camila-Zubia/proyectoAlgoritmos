@@ -10,11 +10,4 @@
         <maven.compiler.release>24</maven.compiler.release>
         <exec.mainClass>itson.edu.mx.proyecto_analisis_algoritmos.Proyecto_Analisis_Algoritmos</exec.mainClass>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>itson.edu.mx</groupId>
-            <artifactId>pruebaSonido</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            </dependency>
-    </dependencies>
 </project>

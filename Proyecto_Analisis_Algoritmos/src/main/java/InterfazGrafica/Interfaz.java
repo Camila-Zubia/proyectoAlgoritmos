@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package InterfazGrafica;
+import Entidades.Arista;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -10,7 +11,11 @@ import Entidades.Grafo;
 import Entidades.Vertice;
 import Logica.Busqueda;
 import Logica.PanelGrafo;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,14 +41,17 @@ public class Interfaz extends JFrame {
         JButton bfsButton = new JButton("BFS desde vértice");
         JButton dfsCompletoButton = new JButton("DFS completo");
         JButton bfsCompletoButton = new JButton("BFS completo");
+        JButton tablaButton = new JButton("Mostrar tabla");
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         dfsCompletoButton.addActionListener(e -> ejecutarDFSCompleto());
         bfsCompletoButton.addActionListener(e -> ejecutarBFSCompleto());
-        buttonPanel.add(dfsButton);
+        tablaButton.addActionListener(e -> mostrarTabla());
         buttonPanel.add(bfsButton);
+        buttonPanel.add(dfsButton);
         buttonPanel.add(dfsCompletoButton);
         buttonPanel.add(bfsCompletoButton);
+        buttonPanel.add(tablaButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -100,18 +108,63 @@ public class Interfaz extends JFrame {
                     "Recorrido BFS completo: " + recorrido);
         }).start();
     }
+    
+    private void mostrarTabla(){
+        List<Vertice> vertices = grafo.getVertices();
+        int numVertices = vertices.size();
+        String[] columnasMatriz = new String[numVertices + 1];
+        columnasMatriz[0] = " ";
+        for (int i = 0; i < numVertices; i++) {
+            columnasMatriz[i + 1] = vertices.get(i).getNombre();
+        }
+        Object[][] datosMatriz = new Object[numVertices][numVertices + 1];
+        Map<Vertice, Map<Vertice, Double>> adyacencia = new HashMap<>();
+        for (Arista a : grafo.getAristas()) {
+            adyacencia.putIfAbsent(a.getOrigen(), new HashMap<>());
+            adyacencia.get(a.getOrigen()).put(a.getDestino(), a.getPeso());
+        }
+        for (int i = 0; i < numVertices; i++) {
+            Vertice origen = vertices.get(i);
+            datosMatriz[i][0] = origen.getNombre();
+            for (int j = 0; j < numVertices; j++) {
+                Vertice destino = vertices.get(j);
+                Double peso = adyacencia.getOrDefault(origen, Collections.emptyMap()).get(destino);
+                if (peso != null) {
+                    datosMatriz[i][j + 1] = peso;
+                } else {
+                    datosMatriz[i][j + 1] = 0.0;
+                }
+            }
+        }
+        DefaultTableModel modeloMatriz = new DefaultTableModel(datosMatriz, columnasMatriz) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        JTable tablaMatriz = new JTable(modeloMatriz);
+        tablaMatriz.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tablaMatriz.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane scrollMatriz = new JScrollPane(tablaMatriz);
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.add(scrollMatriz);
+        panelPrincipal.setPreferredSize(new Dimension(600, 500));
+        JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
         Vertice a = new Vertice("Nogales", 400, 80);              // Norte
-Vertice b = new Vertice("Cananea", 550, 100);             // Noreste
-Vertice c = new Vertice("Hermosillo", 420, 250);          // Centro
-Vertice d = new Vertice("Guaymas", 420, 380);             // Sur centro
-Vertice e = new Vertice("Cd. Obregon", 420, 470);         // Sur
-Vertice f = new Vertice("Navojoa", 420, 540);             // Sur extremo
-Vertice g = new Vertice("San Luis Río Colorado", 150, 100); // Noroeste
-Vertice h = new Vertice("Puerto Peñasco", 200, 160);      // Noroeste costero
-Vertice i = new Vertice("Caborca", 280, 200);  
+        Vertice b = new Vertice("Cananea", 550, 100);             // Noreste
+        Vertice c = new Vertice("Hermosillo", 420, 250);          // Centro
+        Vertice d = new Vertice("Guaymas", 420, 380);             // Sur centro
+        Vertice e = new Vertice("Cd. Obregon", 420, 470);         // Sur
+        Vertice f = new Vertice("Navojoa", 420, 540);             // Sur extremo
+        Vertice g = new Vertice("San Luis Río Colorado", 150, 100); // Noroeste
+        Vertice h = new Vertice("Puerto Peñasco", 200, 160);      // Noroeste costero
+        Vertice i = new Vertice("Caborca", 280, 200);  
 
         grafo.agregarVertice(a);
         grafo.agregarVertice(b);
