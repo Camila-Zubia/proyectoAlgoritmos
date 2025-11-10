@@ -1,46 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Entidades;
 
 import java.awt.Color;
 import java.util.*;
 /**
- *
- * @author lagar
+ * clase que representa el grafo
+ * @author equipo
  */
 public class Grafo {
-    
     private Map<Vertice, List<Arista>> adyacencias;
-
+    
+    /**
+     * contructor que inicializa el grafo
+     */
     public Grafo() {
         adyacencias = new HashMap<>();
     }
-
-    public void agregarVertice(Vertice v) {
-        adyacencias.putIfAbsent(v, new ArrayList<>());
+    
+    /**
+     * metodo que agrega un vertice al grafo
+     * @param vertice grafo insertar
+     */
+    public void agregarVertice(Vertice vertice) {
+        adyacencias.putIfAbsent(vertice, new ArrayList<>());
     }
-
+    
+    /**
+     * metodo que agrega una arista dentro de 2 vertices
+     * @param origen vertice de origen
+     * @param destino vertice de destino
+     * @param peso peso de la arista
+     */
     public void agregarArista(Vertice origen, Vertice destino, double peso) {
         adyacencias.get(origen).add(new Arista(origen, destino, peso));
     }
-
-    public void agregarArista(Vertice origen, Vertice destino) {
-        agregarArista(origen, destino, 1.0); // peso por defecto
-    }
-
-    public List<Vertice> getVecinos(Vertice v) {
+    
+    /**
+     * metodo que regresa los vecinos del vertice solicitado
+     * @param vertice vertice 
+     * @return lista de vecinos
+     */
+    public List<Vertice> getVecinos(Vertice vertice) {
         List<Vertice> vecinos = new ArrayList<>();
-        List<Arista> aristas = adyacencias.get(v);
+        List<Arista> aristas = adyacencias.get(vertice);
         if (aristas != null) {
-            for (Arista a : aristas) {
-                vecinos.add(a.getDestino());
+            for (Arista arista : aristas) {
+                vecinos.add(arista.getDestino());
             }
         }
         return vecinos;
     }
-
+    
+    /**
+     * metodo que regresa todas las aristas actuales
+     * @return lista de aristas
+     */
     public List<Arista> getAristas() {
         List<Arista> todas = new ArrayList<>();
         for (List<Arista> lista : adyacencias.values()) {
@@ -48,11 +61,19 @@ public class Grafo {
         }
         return todas;
     }
-
+    
+    /**
+     * metodo que extrae todos los vertices del grafo
+     * @return lista de vertices
+     */
     public List<Vertice> getVertices() {
         return new ArrayList<>(adyacencias.keySet());
     }
-
+    
+    /**
+     * metodo que reinicia el estado de todos los vertices
+     * a rojo representando como no visitados
+     */
     public void formatearColores() {
         for (Vertice vertice : adyacencias.keySet()) {
             vertice.setEstado(Color.RED);

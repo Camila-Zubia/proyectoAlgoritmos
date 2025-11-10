@@ -7,14 +7,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
-
+/**
+ * clase que representa el panel del grafo que extiende de JPanel
+ * @author equipo
+ */
 public class PanelGrafo extends JPanel {
     
     private Grafo grafo;
     private Vertice verticeSeleccionado = null;
     private static final int RADIO = 10;
     private Image imagenFondo;
-
+    
+    /**
+     * contruxtor que inicializa la clase y muestra el grafo visualmente
+     * @param grafo grafo actual
+     */
     public PanelGrafo(Grafo grafo) {
         this.grafo = grafo;
         setPreferredSize(new Dimension(790,790));
@@ -22,31 +29,45 @@ public class PanelGrafo extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Vertice v = getVerticeEn(e.getX(), e.getY());
-                if (v != null) {
-                    verticeSeleccionado = v;
+                Vertice vertice = getVerticeEn(e.getX(), e.getY());
+                if (vertice != null) {
+                    verticeSeleccionado = vertice;
                     repaint();
                 }
             }
         });
     }
-
+    
+    /**
+     * metodo que regresa el vertice seleccionado por el usuario
+     * @return vertice seleccionado
+     */
     public Vertice getVerticeSeleccionado() {
         return verticeSeleccionado;
     }
-
+    
+    /**
+     * metodo que permite identificar un vertice cuando el usuario hace clic cerca de su posición.
+     * @param x coordenada x del clic
+     * @param y coordenada y del clic
+     * @return vertice cliqueado o ninguno
+     */
     private Vertice getVerticeEn(int x, int y) {
         List<Vertice> vertices = grafo.getVertices();
-        for (Vertice v : vertices) {
-            int dx = x - v.getX();
-            int dy = y - v.getY();
+        for (Vertice vertice : vertices) {
+            int dx = x - vertice.getX();
+            int dy = y - vertice.getY();
             if (dx * dx + dy * dy <= RADIO * RADIO) {
-                return v;
+                return vertice;
             }
         }
         return null;
     }
-
+    
+    /**
+     * metodo de JPanel para pintar el grafo en el frame
+     * @param g graficas de java
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -87,27 +108,27 @@ public class PanelGrafo extends JPanel {
             g2.drawString(nombre, v.getX() - textWidth / 2, v.getY() + fm.getAscent() / 2);
         }
     }
-
-    // Dibuja la línea con flecha al final (punto final en x2,y2)
+    
+    /**
+     * metodo que dibuja las aristas con flecha dependiendo le la lista de adyacencia
+     * @param g2 graficos 2d
+     * @param x1 coordenada x del centro de origen
+     * @param y1 coordenada y del centro de origen
+     * @param x2 coordenada x del centro de destino
+     * @param y2 coordenada y del centro de destino
+     */
     private void dibujarAristaDirigida(Graphics2D g2, int x1, int y1, int x2, int y2) {
-        // Calcular el punto de salida y llegada un poco desplazados para no dibujar sobre la burbuja
         double dx = x2 - x1;
         double dy = y2 - y1;
         double dist = Math.hypot(dx, dy);
         if (dist == 0) return;
-
-        // ajustar para que la línea empiece/termine en el borde del círculo
         double ux = dx / dist;
         double uy = dy / dist;
         int startX = (int) Math.round(x1 + ux * RADIO);
         int startY = (int) Math.round(y1 + uy * RADIO);
         int endX = (int) Math.round(x2 - ux * RADIO);
         int endY = (int) Math.round(y2 - uy * RADIO);
-
-        // Línea principal
         g2.drawLine(startX, startY, endX, endY);
-
-        // Flecha
         double phi = Math.toRadians(25);
         int barb = 12;
         double theta = Math.atan2(endY - startY, endX - startX);

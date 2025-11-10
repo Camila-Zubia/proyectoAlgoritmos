@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Entidades;
 
 /**
@@ -32,21 +28,28 @@ public class Arista {
     public Vertice getOrigen() {
         return origen;
     }
-
+    
+    /**
+     * metodo para regresar el vertice destino de la arista
+     * @return vertice de destino
+     */
     public Vertice getDestino() {
         return destino;
     }
 
+    /**
+     * metodo que regresa el peso de la arista
+     * @return peso de la arista
+     */
     public double getPeso() {
         return peso;
     }
-
+    
+    /**
+     * metodo para setear el peso de la arista
+     * @param peso peso de la arista
+     */
     public void setPeso(double peso) {
         this.peso = peso;
-    }
-
-    @Override
-    public String toString() {
-        return origen.getNombre() + " -> " + destino.getNombre() + " (" + peso + ")";
     }
 }
