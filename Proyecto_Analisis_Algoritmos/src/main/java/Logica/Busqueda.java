@@ -16,27 +16,33 @@ public class Busqueda {
         this.panel = panel;
     }
 
+    
     public List<Vertice> DFS(Vertice verticeInicio) {
         List<Vertice> orden = new ArrayList<>();
         Set<Vertice> visitado = new HashSet<>();
         apoyoDFS(verticeInicio, visitado, orden);
+        for (Vertice v : grafo.getVertices()) {
+            if (!visitado.contains(v)) {
+                apoyoDFS(v, visitado, orden);
+            }
+        }
         return orden;
     }
-
+    
     private void apoyoDFS(Vertice actual, Set<Vertice> visitado, List<Vertice> orden) {
         visitado.add(actual);
-        actual.setEstado(Color.YELLOW);
+        actual.setEstado(Color.YELLOW); 
+        repintar();
         orden.add(actual);
-        repintarConRetraso();
         for (Vertice vecino : grafo.getVecinos(actual)) {
             if (!visitado.contains(vecino)) {
                 apoyoDFS(vecino, visitado, orden);
             }
         }
-        actual.setEstado(Color.GREEN);
-        repintarConRetraso();
+        actual.setEstado(Color.GREEN); 
+        repintar();
     }
-    
+
     public List<Vertice> BFS(Vertice verticeInicio) {
         List<Vertice> orden = new ArrayList<>();
         Set<Vertice> visitado = new HashSet<>();
@@ -44,7 +50,7 @@ public class Busqueda {
         visitado.add(verticeInicio);
         cola.add(verticeInicio);
         verticeInicio.setEstado(Color.YELLOW);
-        repintarConRetraso();
+        repintar();
         while (!cola.isEmpty()) {
             Vertice actual = cola.poll();
             orden.add(actual);
@@ -53,57 +59,12 @@ public class Busqueda {
                     visitado.add(vecino);
                     cola.add(vecino);
                     vecino.setEstado(Color.YELLOW);
-                    repintarConRetraso();
+                    repintar();
                 }
             }
 
             actual.setEstado(Color.GREEN);
-            repintarConRetraso();
-        }
-
-        return orden;
-    }
-    
-    public List<Vertice> DFSCompleto() {
-        List<Vertice> orden = new ArrayList<>();
-        Set<Vertice> visitado = new HashSet<>();
-        for (Vertice vertice : grafo.getVertices()) {
-            if (!visitado.contains(vertice)) {
-                apoyoDFS(vertice, visitado, orden);
-            }
-        }
-        return orden;
-    }
-
-    public List<Vertice> BFSCompleto() {
-        List<Vertice> orden = new ArrayList<>();
-        Set<Vertice> visitado = new HashSet<>();
-
-        for (Vertice inicio : grafo.getVertices()) {
-            if (!visitado.contains(inicio)) {
-                Queue<Vertice> cola = new LinkedList<>();
-                cola.add(inicio);
-                visitado.add(inicio);
-                inicio.setEstado(Color.YELLOW);
-                repintarConRetraso();
-
-                while (!cola.isEmpty()) {
-                    Vertice actual = cola.poll();
-                    orden.add(actual);
-
-                    for (Vertice vecino : grafo.getVecinos(actual)) {
-                        if (!visitado.contains(vecino)) {
-                            visitado.add(vecino);
-                            cola.add(vecino);
-                            vecino.setEstado(Color.YELLOW);
-                            repintarConRetraso();
-                        }
-                    }
-
-                    actual.setEstado(Color.GREEN);
-                    repintarConRetraso();
-                }
-            }
+            repintar();
         }
 
         return orden;
@@ -114,7 +75,7 @@ public class Busqueda {
      List<Arista> mst = new ArrayList<>();
      Map<Vertice,Vertice> padre = new HashMap<>();
      
-     // Inicializa cada vertice como su propio conjunto
+     
         for (Vertice v: grafo.getVertices()) {
             padre.put(v, v);
         }
@@ -128,19 +89,19 @@ public class Busqueda {
                 union(padre,u,v);
                 u.setEstado(Color.YELLOW);
                 v.setEstado(Color.YELLOW);
-                repintarConRetraso();
+                repintar();
             }
         }
         for(Arista a : mst){
             a.getOrigen().setEstado(Color.GREEN);
             a.getDestino().setEstado(Color.GREEN);
-            repintarConRetraso();
+            repintar();
         }
         
         return mst;
     }
     
-    private void repintarConRetraso() {
+    private void repintar() {
         SwingUtilities.invokeLater(panel::repaint);
         try {
             Thread.sleep(1000);
