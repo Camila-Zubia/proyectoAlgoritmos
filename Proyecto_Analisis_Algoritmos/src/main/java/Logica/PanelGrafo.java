@@ -17,6 +17,7 @@ public class PanelGrafo extends JPanel {
 
     public PanelGrafo(Grafo grafo) {
         this.grafo = grafo;
+        setPreferredSize(new Dimension(790,790));
         imagenFondo = new ImageIcon(getClass().getResource("/chiapas.jpeg")).getImage();
         addMouseListener(new MouseAdapter() {
             @Override

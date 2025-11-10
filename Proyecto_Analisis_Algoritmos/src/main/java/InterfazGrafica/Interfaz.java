@@ -29,7 +29,7 @@ public class Interfaz extends JFrame {
     public Interfaz(Grafo grafo) {
         this.grafo = grafo;
         setTitle("Grafo");
-        setSize(1000, 800);
+        setSize(1000, 790);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -49,13 +49,14 @@ public class Interfaz extends JFrame {
         bfsCompletoButton.addActionListener(e -> ejecutarBFSCompleto());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
         tablaButton.addActionListener(e -> mostrarTabla());
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(dfsCompletoButton);
         buttonPanel.add(bfsCompletoButton);
         buttonPanel.add(kruskalButton);
         buttonPanel.add(tablaButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.EAST);
     }
 
     private void ejecutarDFS() {
@@ -181,7 +182,7 @@ public class Interfaz extends JFrame {
         Vertice h = new Vertice("Ocosingo", 510, 280);
         Vertice i = new Vertice("Ocozocoautla de Espinosa", 290, 320);
         Vertice j = new Vertice("Tonalá", 150, 360);
-        Vertice k = new Vertice("Villaflores", 150, 350);
+        Vertice k = new Vertice("Villaflores", 210, 350);
         Vertice l = new Vertice("Berriozábal", 330, 290);
         Vertice m = new Vertice("Huixtla", 440, 550);
         Vertice n = new Vertice("Reforma", 310, 90);
@@ -199,7 +200,7 @@ public class Interfaz extends JFrame {
         Vertice z = new Vertice("Ciudad Hidalgo", 470, 630);
         Vertice aa = new Vertice("Venustiano Carranza", 500, 410);
         Vertice ab = new Vertice("Pichucalco", 310, 130);
-        Vertice ac = new Vertice("Acala", 230, 360);
+        Vertice ac = new Vertice("Acala", 350, 360);
         Vertice ad = new Vertice("Simojovel de Allende", 380, 230);
 
         grafo.agregarVertice(a);
@@ -235,35 +236,35 @@ public class Interfaz extends JFrame {
 
         grafo.agregarArista(a, e, 15.1);
         grafo.agregarArista(e, c, 53.9);
-        grafo.agregarArista(a, u);
-        grafo.agregarArista(a, l);
-        grafo.agregarArista(l, i);
-        grafo.agregarArista(i, k);
-        grafo.agregarArista(i, g);
-        grafo.agregarArista(g, p);
-        grafo.agregarArista(p, j);
-        grafo.agregarArista(j, y);
-        grafo.agregarArista(y, v);
-        grafo.agregarArista(v, m);
-        grafo.agregarArista(m, b);
-        grafo.agregarArista(m, o);
-        grafo.agregarArista(b, w);
-        grafo.agregarArista(w, z);
-        grafo.agregarArista(o, r);
-        grafo.agregarArista(r, d);
-        grafo.agregarArista(d, q);
-        grafo.agregarArista(d, s);
-        grafo.agregarArista(s, t);
-        grafo.agregarArista(t, c);
-        grafo.agregarArista(e, ac);
-        grafo.agregarArista(e, ad);
-        grafo.agregarArista(e, ab);
-        grafo.agregarArista(a, u);
-        grafo.agregarArista(ab, n);
-        grafo.agregarArista(ac, aa);
-        grafo.agregarArista(t, h);
-        grafo.agregarArista(h, f);
-        grafo.agregarArista(h, x);
+        grafo.agregarArista(a, u, 21.1);
+        grafo.agregarArista(a, l, 23.7);
+        grafo.agregarArista(l, i, 14.6);
+        grafo.agregarArista(i, k, 74.4);
+        grafo.agregarArista(i, g, 47.6);
+        grafo.agregarArista(g, p, 68.5);
+        grafo.agregarArista(p, j, 25.4);
+        grafo.agregarArista(j, y, 78.9);
+        grafo.agregarArista(y, v, 47.6);
+        grafo.agregarArista(v, m, 63.7);
+        grafo.agregarArista(m, b, 41.2);
+        grafo.agregarArista(m, o, 58.5);
+        grafo.agregarArista(b, w, 21.9);
+        grafo.agregarArista(w, z, 39.8);
+        grafo.agregarArista(o, r, 50.2);
+        grafo.agregarArista(r, d, 96.1);
+        grafo.agregarArista(d, q, 20.2);
+        grafo.agregarArista(d, s, 37.6);
+        grafo.agregarArista(s, t, 29.1);
+        grafo.agregarArista(t, c, 33.6);
+        grafo.agregarArista(e, ac, 40.7);
+        grafo.agregarArista(e, ad, 109);
+        grafo.agregarArista(e, ab, 194);
+        grafo.agregarArista(a, u, 19.8);
+        grafo.agregarArista(ab, n, 54.3);
+        grafo.agregarArista(ac, aa, 52.3);
+        grafo.agregarArista(t, h, 104);
+        grafo.agregarArista(h, f, 119);
+        grafo.agregarArista(h, x, 54.4);
 
         SwingUtilities.invokeLater(() -> {
             Interfaz frame = new Interfaz(grafo);
