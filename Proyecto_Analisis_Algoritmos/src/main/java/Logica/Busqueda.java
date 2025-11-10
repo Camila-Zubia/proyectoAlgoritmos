@@ -51,24 +51,40 @@ public class Busqueda {
         cola.add(verticeInicio);
         verticeInicio.setEstado(Color.YELLOW);
         repintar();
-        while (!cola.isEmpty()) {
-            Vertice actual = cola.poll();
-            orden.add(actual);
-            for (Vertice vecino : grafo.getVecinos(actual)) {
-                if (!visitado.contains(vecino)) {
-                    visitado.add(vecino);
-                    cola.add(vecino);
-                    vecino.setEstado(Color.YELLOW);
-                    repintar();
+        while (true) {
+            while (!cola.isEmpty()) {
+                Vertice actual = cola.poll();
+                orden.add(actual);
+                for (Vertice vecino : grafo.getVecinos(actual)) {
+                    if (!visitado.contains(vecino)) {
+                        visitado.add(vecino);
+                        cola.add(vecino);
+                        vecino.setEstado(Color.YELLOW);
+                        repintar();
+                    }
+                }
+
+                actual.setEstado(Color.GREEN);
+                repintar();
+            }
+            Vertice noVisitado = null;
+            for (Vertice vertice : grafo.getVertices()) {
+                if (!visitado.contains(vertice)) {
+                    noVisitado = vertice;
+                    break;
                 }
             }
-
-            actual.setEstado(Color.GREEN);
+            if (noVisitado == null){
+                break;
+            }
+            visitado.add(noVisitado);
+            cola.add(noVisitado);
+            noVisitado.setEstado(Color.YELLOW);
             repintar();
         }
-
         return orden;
     }
+
     
     public List<Arista> kruskal(){
      List<Arista> aristas = new ArrayList<>(grafo.getAristas());
