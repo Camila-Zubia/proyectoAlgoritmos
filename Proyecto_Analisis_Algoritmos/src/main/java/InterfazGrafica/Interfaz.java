@@ -146,7 +146,6 @@ public class Interfaz extends JFrame {
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
-
         
         Vertice a = new Vertice("Tuxtla Gutiérrez", 270, 320);
         Vertice b = new Vertice("Tapachula de Córdova y Ordóñez", 400, 640);
