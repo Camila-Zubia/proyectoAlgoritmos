@@ -32,6 +32,11 @@ public class Grafo {
      */
     public void agregarArista(Vertice origen, Vertice destino, double peso) {
         adyacencias.get(origen).add(new Arista(origen, destino, peso));
+        adyacencias.get(destino).add(new Arista(destino, origen, peso));
+    }
+    
+    public void agregarAristaDirigida(Vertice origen, Vertice destino, double peso) {
+        adyacencias.get(origen).add(new Arista(origen, destino, peso));
     }
     
     /**

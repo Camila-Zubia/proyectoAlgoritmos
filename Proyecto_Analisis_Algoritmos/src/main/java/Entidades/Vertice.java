@@ -10,6 +10,8 @@ public class Vertice {
     private String nombre;
     private int x, y;
     private Color estado;
+    private double d;
+    private Vertice π;
     
     /**
      * constructor que inicializa la clase
@@ -21,6 +23,8 @@ public class Vertice {
         this.nombre = nombre;
         this.x = x;
         this.y = y;
+        this.d = 0;
+        this.π = null;
     }
     
     /**
@@ -86,4 +90,26 @@ public class Vertice {
     public void setY(int y) {
         this.y = y;
     }
+
+    public double getD() {
+        return d;
+    }
+
+    public void setD(double d) {
+        this.d = d;
+    }
+
+    public Vertice getΠ() {
+        return π;
+    }
+
+    public void setΠ(Vertice π) {
+        this.π = π;
+    }
+    
+    @Override
+    public String toString() {
+        return nombre;
+    }
+    
 }

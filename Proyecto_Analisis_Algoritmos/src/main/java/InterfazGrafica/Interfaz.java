@@ -146,38 +146,40 @@ public class Interfaz extends JFrame {
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
-        Vertice a = new Vertice("Tuxtla Gutiérrez", 300, 330); 
-        Vertice b = new Vertice("Tapachula de Córdova y Ordóñez", 420, 600);
-        Vertice c = new Vertice("San Cristóbal de Las Casas", 380, 330); 
-        Vertice d = new Vertice("Comitán de Domínguez", 510, 400); 
-        Vertice e = new Vertice("Heroica Chiapa de Corzo", 320, 330); 
-        Vertice f = new Vertice("Palenque", 510, 120); 
-        Vertice g = new Vertice("Cintalapa de Figueroa", 80, 300);
-        Vertice h = new Vertice("Ocosingo", 460, 280);
-        Vertice i = new Vertice("Ocozocoautla de Espinosa", 240, 320);
-        Vertice j = new Vertice("Tonalá", 100, 360);
-        Vertice k = new Vertice("Villaflores", 160, 350);
-        Vertice l = new Vertice("Berriozábal", 280, 290);
-        Vertice m = new Vertice("Huixtla", 390, 550);
-        Vertice n = new Vertice("Reforma", 260, 90);
+
+        
+        Vertice a = new Vertice("Tuxtla Gutiérrez", 270, 320);
+        Vertice b = new Vertice("Tapachula de Córdova y Ordóñez", 400, 640);
+        Vertice c = new Vertice("San Cristóbal de Las Casas", 400, 330); 
+        Vertice d = new Vertice("Comitán de Domínguez", 510, 420); 
+        Vertice e = new Vertice("Heroica Chiapa de Corzo", 310, 340); 
+        Vertice f = new Vertice("Palenque", 530, 120); 
+        Vertice g = new Vertice("Cintalapa de Figueroa", 80, 270);
+        Vertice h = new Vertice("Ocosingo", 480, 260);
+        Vertice i = new Vertice("Ocozocoautla de Espinosa", 180, 300);
+        Vertice j = new Vertice("Tonalá", 90, 390);
+        Vertice k = new Vertice("Villaflores", 180, 360);
+        Vertice l = new Vertice("Berriozábal", 220, 270);
+        Vertice m = new Vertice("Huixtla", 360, 590);
+        Vertice n = new Vertice("Reforma", 250, 50);
         Vertice o = new Vertice("Motozintla de Mendoza", 430, 560);
-        Vertice p = new Vertice("Arriaga", 50, 320);
-        Vertice q = new Vertice("Las Margaritas", 520, 370);
-        Vertice r = new Vertice("Frontera Comalapa", 440, 530);
-        Vertice s = new Vertice("Las Rosas", 490, 360);
-        Vertice t = new Vertice("Teopisca", 450, 340);
-        Vertice u = new Vertice("Suchiapa", 300, 345);
-        Vertice v = new Vertice("Mapastepec", 280, 520);
-        Vertice w = new Vertice("Cacahoatán", 450, 570);
-        Vertice x = new Vertice("Yajalón", 430, 150);
-        Vertice y = new Vertice("Pijijiapan", 220, 460);
-        Vertice z = new Vertice("Ciudad Hidalgo", 420, 630);
-        Vertice aa = new Vertice("Venustiano Carranza", 450, 410);
+        Vertice p = new Vertice("Arriaga", 70, 340);
+        Vertice q = new Vertice("Las Margaritas", 550, 370);
+        Vertice r = new Vertice("Frontera Comalapa", 460, 510);
+        Vertice s = new Vertice("Las Rosas", 470, 390);
+        Vertice t = new Vertice("Teopisca", 470, 340);
+        Vertice u = new Vertice("Suchiapa", 270, 370);
+        Vertice v = new Vertice("Mapastepec", 270, 520);
+        Vertice w = new Vertice("Cacahoatán", 430, 600);
+        Vertice x = new Vertice("Yajalón", 450, 150);
+        Vertice y = new Vertice("Pijijiapan", 210, 460);
+        Vertice z = new Vertice("Ciudad Hidalgo", 420, 690);
+        Vertice aa = new Vertice("Venustiano Carranza", 430, 430);
         Vertice ab = new Vertice("Pichucalco", 260, 130);
-        Vertice ac = new Vertice("Acala", 300, 360);
-        Vertice ad = new Vertice("Simojovel de Allende", 330, 230);
+        Vertice ac = new Vertice("Acala", 400, 370);
+        Vertice ad = new Vertice("Simojovel de Allende", 370, 230);
 
-
+        
         grafo.agregarVertice(a);
         grafo.agregarVertice(b);
         grafo.agregarVertice(c);
