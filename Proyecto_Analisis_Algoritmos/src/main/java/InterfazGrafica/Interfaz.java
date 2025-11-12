@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package InterfazGrafica;
+
 import Entidades.Arista;
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
  * @author lagar
  */
 public class Interfaz extends JFrame {
+
     private Grafo grafo;
     private PanelGrafo panelGrafo;
     private Busqueda buscar;
@@ -41,14 +43,17 @@ public class Interfaz extends JFrame {
         JButton bfsButton = new JButton("BFS desde vértice");
         JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
+        JButton diskstrButton = new JButton("Diskstra (Camino más corto)");
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
         tablaButton.addActionListener(e -> mostrarTabla());
+        diskstrButton.addActionListener(e -> ejecutarDisktra());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(kruskalButton);
+        buttonPanel.add(diskstrButton);
         buttonPanel.add(tablaButton);
         add(buttonPanel, BorderLayout.EAST);
     }
@@ -84,22 +89,58 @@ public class Interfaz extends JFrame {
                     "Recorrido BFS desde " + seleccionado.getNombre() + ": " + recorrido);
         }).start();
     }
-    
-   
-    
-    private void ejecutarKruskal(){
+
+    private void ejecutarKruskal() {
         grafo.formatearColores();
         panelGrafo.repaint();
         new Thread(() -> {
-             List<Arista> mst = buscar.kruskal();
-             SwingUtilities.invokeLater(panelGrafo::repaint);
-             double pesoTotal = mst.stream().mapToDouble(Arista::getPeso).sum();
-             JOptionPane.showMessageDialog(this,"Arbol de expansion minima (Kruskal):\n" +
-                     mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
+            List<Arista> mst = buscar.kruskal();
+            SwingUtilities.invokeLater(panelGrafo::repaint);
+            double pesoTotal = mst.stream().mapToDouble(Arista::getPeso).sum();
+            JOptionPane.showMessageDialog(this, "Arbol de expansion minima (Kruskal):\n"
+                    + mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
         }).start();
     }
-    
-    private void mostrarTabla(){
+
+    private void ejecutarDisktra() {
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
+        if (seleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccionar un vertice de inicio para Dijkstra.");
+            return;
+        }
+
+        grafo.formatearColores();
+        panelGrafo.repaint();
+
+        new Thread(() -> {
+            Map<Vertice, Double> distancias = buscar.dijkstra(seleccionado);
+
+            //Crear una tabla con los resultados 
+            String[] columnas = {"Vertice", "Distancia desde" + seleccionado.getNombre()};
+            Object[][] datos = new Object[distancias.size()][2];
+            int i = 0;
+            for (Map.Entry<Vertice, Double> entry : distancias.entrySet()) {
+                datos[i][0] = entry.getKey().getNombre();
+                datos[i][1] = entry.getValue().isInfinite() ? "∞" : String.format("%.2f", entry.getValue());
+                i++;
+            }
+
+            JTable tabla = new JTable(datos, columnas);
+            tabla.setEnabled(false);
+            JScrollPane scrollPane = new JScrollPane(tabla);
+            scrollPane.setPreferredSize(new Dimension(300, 300));
+
+            SwingUtilities.invokeLater(() -> {
+                panelGrafo.repaint();
+                JOptionPane.showMessageDialog(this, scrollPane,
+                        "Distancias minimas despues " + seleccionado.getNombre(),
+                        JOptionPane.INFORMATION_MESSAGE);
+            });
+        }).start();
+
+    }
+
+    private void mostrarTabla() {
         List<Vertice> vertices = grafo.getVertices();
         int numVertices = vertices.size();
         String[] columnasMatriz = new String[numVertices + 1];
@@ -146,13 +187,13 @@ public class Interfaz extends JFrame {
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
-        
+
         Vertice a = new Vertice("Tuxtla Gutiérrez", 270, 320);
         Vertice b = new Vertice("Tapachula de Córdova y Ordóñez", 400, 640);
-        Vertice c = new Vertice("San Cristóbal de Las Casas", 400, 330); 
-        Vertice d = new Vertice("Comitán de Domínguez", 510, 420); 
-        Vertice e = new Vertice("Heroica Chiapa de Corzo", 310, 340); 
-        Vertice f = new Vertice("Palenque", 530, 120); 
+        Vertice c = new Vertice("San Cristóbal de Las Casas", 400, 330);
+        Vertice d = new Vertice("Comitán de Domínguez", 510, 420);
+        Vertice e = new Vertice("Heroica Chiapa de Corzo", 310, 340);
+        Vertice f = new Vertice("Palenque", 530, 120);
         Vertice g = new Vertice("Cintalapa de Figueroa", 80, 270);
         Vertice h = new Vertice("Ocosingo", 480, 260);
         Vertice i = new Vertice("Ocozocoautla de Espinosa", 180, 300);
@@ -178,7 +219,6 @@ public class Interfaz extends JFrame {
         Vertice ac = new Vertice("Acala", 400, 370);
         Vertice ad = new Vertice("Simojovel de Allende", 370, 230);
 
-        
         grafo.agregarVertice(a);
         grafo.agregarVertice(b);
         grafo.agregarVertice(c);
