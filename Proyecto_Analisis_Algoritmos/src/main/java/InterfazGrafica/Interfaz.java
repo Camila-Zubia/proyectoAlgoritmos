@@ -31,7 +31,7 @@ public class Interfaz extends JFrame {
     public Interfaz(Grafo grafo) {
         this.grafo = grafo;
         setTitle("Grafo");
-        setSize(1000, 790);
+        setSize(1100, 790);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -198,7 +198,7 @@ public class Interfaz extends JFrame {
         Vertice h = new Vertice("Ocosingo", 480, 260);
         Vertice i = new Vertice("Ocozocoautla de Espinosa", 180, 300);
         Vertice j = new Vertice("Tonalá", 90, 390);
-        Vertice k = new Vertice("Villaflores", 180, 360);
+        Vertice k = new Vertice("Villaflores", 190, 380);
         Vertice l = new Vertice("Berriozábal", 220, 270);
         Vertice m = new Vertice("Huixtla", 360, 590);
         Vertice n = new Vertice("Reforma", 250, 50);
@@ -210,10 +210,10 @@ public class Interfaz extends JFrame {
         Vertice t = new Vertice("Teopisca", 470, 340);
         Vertice u = new Vertice("Suchiapa", 270, 370);
         Vertice v = new Vertice("Mapastepec", 270, 520);
-        Vertice w = new Vertice("Cacahoatán", 430, 600);
+        Vertice w = new Vertice("Cacahoatán", 450, 620);
         Vertice x = new Vertice("Yajalón", 450, 150);
         Vertice y = new Vertice("Pijijiapan", 210, 460);
-        Vertice z = new Vertice("Ciudad Hidalgo", 420, 690);
+        Vertice z = new Vertice("Ciudad Hidalgo", 440, 690);
         Vertice aa = new Vertice("Venustiano Carranza", 430, 430);
         Vertice ab = new Vertice("Pichucalco", 260, 130);
         Vertice ac = new Vertice("Acala", 400, 370);
@@ -281,6 +281,10 @@ public class Interfaz extends JFrame {
         grafo.agregarArista(t, h, 104);
         grafo.agregarArista(h, f, 119);
         grafo.agregarArista(h, x, 54.4);
+        grafo.agregarArista(k, u, 71.3);
+        grafo.agregarArista(w, o, 119);
+        grafo.agregarArista(d, aa, 77.4);
+        grafo.agregarArista(ab, ad, 132);
 
         SwingUtilities.invokeLater(() -> {
             Interfaz frame = new Interfaz(grafo);
