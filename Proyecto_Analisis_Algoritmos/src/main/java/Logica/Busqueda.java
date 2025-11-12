@@ -117,6 +117,52 @@ public class Busqueda {
         return mst;
     }
     
+    public Map<Vertice,Double> dijkstra(Vertice origen){
+     Map<Vertice, Double> distancias = new HashMap<>();
+     Map<Vertice, Vertice> previo = new HashMap<>();
+     PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancias::get));
+     
+     // Inicializar distancias 
+        for (Vertice v : grafo.getVertices()) {
+            distancias.put(v, Double.POSITIVE_INFINITY);
+            previo.put(v, null);
+            v.setEstado(Color.RED);
+            
+        }
+        distancias.put(origen, 0.0);
+        cola.add(origen);
+        origen.setEstado(Color.YELLOW);
+        repintar();
+        
+        while(!cola.isEmpty()){
+            Vertice actual = cola.poll();
+            actual.setEstado(Color.GREEN);
+            repintar();
+            
+            for (Arista a : grafo.getAristas()) {
+                if (a.getOrigen().equals(actual)) {
+                    Vertice vecino = a.getDestino();
+                    double nuevaDistancia = distancias.get(actual) + a.getPeso();
+                    if (nuevaDistancia < distancias.get(vecino)) {
+                        distancias.put(vecino, nuevaDistancia);
+                        previo.put(vecino, actual);
+                        cola.add(vecino);
+                        vecino.setEstado(Color.YELLOW);
+                        repintar();
+                    }
+                }
+            }
+        }
+        // Pintar el resultado final 
+        for (Vertice v : grafo.getVertices()) {
+            v.setEstado(Color.CYAN);
+        }
+        origen.setEstado(Color.GREEN);
+        repintar();
+        return distancias;
+    }
+    
+    
     private void repintar() {
         SwingUtilities.invokeLater(panel::repaint);
         try {
