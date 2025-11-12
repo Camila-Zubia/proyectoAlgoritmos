@@ -4,5 +4,5 @@ Entidades\Grafo.class
 Entidades\Arista.class
 Logica\PanelGrafo$1.class
 InterfazGrafica\Interfaz.class
-Logica\Busqueda.class
+Logica\Algoritmos.class
 Logica\PanelGrafo.class

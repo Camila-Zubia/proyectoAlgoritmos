@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.List;
 import Entidades.Grafo;
 import Entidades.Vertice;
-import Logica.Busqueda;
+import Logica.Algoritmos;
 import Logica.PanelGrafo;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,15 +19,18 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author lagar
+ * clase que representa el frame del proyecto
+ * @author equipo
  */
 public class Interfaz extends JFrame {
-
     private Grafo grafo;
     private PanelGrafo panelGrafo;
-    private Busqueda buscar;
-
+    private Algoritmos buscar;
+    
+    /**
+     * contructor que inicializa la clase
+     * @param grafo grafo
+     */
     public Interfaz(Grafo grafo) {
         this.grafo = grafo;
         setTitle("Grafo");
@@ -36,11 +39,11 @@ public class Interfaz extends JFrame {
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         panelGrafo = new PanelGrafo(grafo);
-        buscar = new Busqueda(grafo, panelGrafo);
+        buscar = new Algoritmos(grafo, panelGrafo);
         add(panelGrafo, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
-        JButton dfsButton = new JButton("DFS desde vértice");
-        JButton bfsButton = new JButton("BFS desde vértice");
+        JButton dfsButton = new JButton("DFS");
+        JButton bfsButton = new JButton("BFS");
         JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
         JButton diskstrButton = new JButton("Diskstra (Camino más corto)");
@@ -57,7 +60,10 @@ public class Interfaz extends JFrame {
         buttonPanel.add(tablaButton);
         add(buttonPanel, BorderLayout.EAST);
     }
-
+    
+    /**
+     * metodo que ejecuta y prepara al algoritmo de DFS
+     */
     private void ejecutarDFS() {
         Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
         if (seleccionado == null) {
@@ -73,7 +79,10 @@ public class Interfaz extends JFrame {
                     "Recorrido DFS desde " + seleccionado.getNombre() + ": " + recorrido);
         }).start();
     }
-
+    
+    /**
+     * metodo que ejecuta y prepara al algoritmo de bFS
+     */
     private void ejecutarBFS() {
         Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
         if (seleccionado == null) {
@@ -89,7 +98,10 @@ public class Interfaz extends JFrame {
                     "Recorrido BFS desde " + seleccionado.getNombre() + ": " + recorrido);
         }).start();
     }
-
+    
+    /**
+     * metodo que ejecuta y prepara al algoritmo de Kruskal
+     */
     private void ejecutarKruskal() {
         grafo.formatearColores();
         panelGrafo.repaint();
@@ -101,7 +113,10 @@ public class Interfaz extends JFrame {
                     + mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
         }).start();
     }
-
+    
+    /**
+     * metodo que ejecuta y prepara al algoritmo de Disktra
+     */
     private void ejecutarDisktra() {
         Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
         if (seleccionado == null) {
@@ -139,7 +154,11 @@ public class Interfaz extends JFrame {
         }).start();
 
     }
-
+    
+    /**
+     * 
+     * metodo que ejecuta y prepara una tabla de ayacencia
+     */
     private void mostrarTabla() {
         List<Vertice> vertices = grafo.getVertices();
         int numVertices = vertices.size();
@@ -184,7 +203,11 @@ public class Interfaz extends JFrame {
         JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-
+    
+    /**
+     * metodo main para ejecutar el proyecto
+     * @param args parametro de ejecucion
+     */
     public static void main(String[] args) {
         Grafo grafo = new Grafo();
 

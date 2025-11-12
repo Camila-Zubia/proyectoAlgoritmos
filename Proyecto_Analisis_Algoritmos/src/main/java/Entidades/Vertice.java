@@ -90,26 +90,36 @@ public class Vertice {
     public void setY(int y) {
         this.y = y;
     }
-
+    
+    /**
+     * metodo que obtiene la distancia del vertice
+     * @return distancia
+     */
     public double getD() {
         return d;
     }
-
+    
+    /**
+     * metodo que setea la distancia del vertice
+     * @param d distancia
+     */
     public void setD(double d) {
         this.d = d;
     }
-
+    
+    /**
+     * metodo que obtiene el vértice predecesor en el camino más corto.
+     * @return predecesor
+     */
     public Vertice getΠ() {
         return π;
     }
-
+    
+    /**
+     * metodoo qie setea el vertice predecesor
+     * @param π predecesor
+     */
     public void setΠ(Vertice π) {
         this.π = π;
     }
-    
-    @Override
-    public String toString() {
-        return nombre;
-    }
-    
 }

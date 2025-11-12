@@ -35,6 +35,12 @@ public class Grafo {
         adyacencias.get(destino).add(new Arista(destino, origen, peso));
     }
     
+    /**
+     * metodo que agrega una arista dentro de 2 vertices de forma dirigida
+     * @param origen vertice de origen
+     * @param destino vertice de destino
+     * @param peso peso de la arista
+     */
     public void agregarAristaDirigida(Vertice origen, Vertice destino, double peso) {
         adyacencias.get(origen).add(new Arista(origen, destino, peso));
     }
