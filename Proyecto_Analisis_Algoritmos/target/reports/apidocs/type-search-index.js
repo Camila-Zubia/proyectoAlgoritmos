@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"Logica","l":"Algoritmos"},{"l":"All Classes and Interfaces","u":"allclasses-index.html","k":"18"},{"p":"Entidades","l":"Arista"},{"p":"Entidades","l":"Grafo"},{"p":"InterfazGrafica","l":"Interfaz"},{"p":"Logica","l":"PanelGrafo"},{"p":"Entidades","l":"Vertice"}];updateSearchResults();

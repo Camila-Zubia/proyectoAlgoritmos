@@ -122,10 +122,24 @@ public class Algoritmos {
      * @return arbol de esparcimiento
      */
     public List<Arista> kruskal() {
+        Set<String> ejesUnicos = new HashSet<>();
+        List<Arista> aristasUnicas = new ArrayList<>();
         List<Arista> aristas = new ArrayList<>(grafo.getAristas());
         List<Arista> mst = new ArrayList<>();
         Map<Vertice, Vertice> padre = new HashMap<>();
         double pesoTotal = 0.0;
+        
+        for (Arista a : aristas) {
+            Vertice u = a.getOrigen();
+            Vertice v = a.getDestino();
+            String clave1 = u.getNombre() + "-" + v.getNombre();
+            String clave2 = v.getNombre() + "-" + u.getNombre();
+
+            if (!ejesUnicos.contains(clave1) && !ejesUnicos.contains(clave2)) {
+                aristasUnicas.add(a);
+                ejesUnicos.add(clave1);
+            }
+        }
 
         // Inicializar los conjuntos disjuntos (cada vertice es su propio padre)
         for (Vertice v : grafo.getVertices()) {
@@ -138,35 +152,41 @@ public class Algoritmos {
         aristas.sort(Comparator.comparingDouble(Arista::getPeso));
 
         // Recorrer las aristas en orden creciente
-        for (Arista a : aristas) {
+        for (Arista a : aristasUnicas) {
             Vertice u = a.getOrigen();
             Vertice v = a.getDestino();
-
+            Color colorVertice;
             //Mostrar que la arista esta siendo evaluada
-            u.setEstado(Color.ORANGE);
-            v.setEstado(Color.ORANGE);
+            u.setEstado(Color.YELLOW);
+            v.setEstado(Color.YELLOW);
+            colorVertice = Color.YELLOW;
             repintar();
             System.out.println("Evaluando arista: " + u.getNombre() + "-" + v.getNombre()
                     + "(Peso: " + a.getPeso() + ")");
 
             // Verificar si pertenece a diferentes conjuntos
             if (find(padre, u) != find(padre, v)) {
-                //No forma ciclo -> se agrega al MST
                 mst.add(a);
                 union(padre, u, v);
                 u.setEstado(Color.GREEN);
                 v.setEstado(Color.GREEN);
+                colorVertice = Color.GREEN;
                 repintar();
 
                 pesoTotal += a.getPeso();
                 System.out.println("Arista agregada al MST (Peso acumulado:" + pesoTotal + ")");
             } else {
-                u.setEstado(Color.LIGHT_GRAY);
-                v.setEstado(Color.LIGHT_GRAY);
-                repintar();
+                colorVertice = Color.RED;
                 System.out.println("Arista destacada (formaria ciclo)");
             }
-
+            a.setEstado(colorVertice);
+            for (Arista aInversa : grafo.getAristasUnicas(v)) {
+                if (aInversa.getDestino().equals(u)) {
+                    aInversa.setEstado(colorVertice);
+                    break;
+                }
+            }
+            repintar();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -175,27 +195,8 @@ public class Algoritmos {
         }
 
         //Finalizar: mostrar todos los vertices del MST en color verde brillante
-        for (Arista a : mst) {
-            a.getOrigen().setEstado(new Color(0, 180, 0));
-            a.getDestino().setEstado(new Color(0, 180, 0));
-        }
+        
         repintar();
-        System.out.println("\n Arbol de expansion minima consruido con exito.");
-        System.out.println("Peso total del MST: " + pesoTotal);
-
-        final List<Arista> mstFinal = new ArrayList<>(mst);
-        final double pesoFinal = pesoTotal;
-
-        // Mostrar resumen al finalizar
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(panel,
-                    "Árbol de Expansión Mínima (Kruskal)\n\n"
-                    + "Aristas incluidas:\n" + mstFinal
-                    + "\n\nPeso total: " + String.format("%.2f", pesoFinal),
-                    "Resultado de Kruskal",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        });
 
         return mst;
     }

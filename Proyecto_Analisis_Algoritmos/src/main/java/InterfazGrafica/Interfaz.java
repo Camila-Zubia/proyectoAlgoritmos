@@ -37,7 +37,7 @@ public class Interfaz extends JFrame {
     public Interfaz(Grafo grafo) {
         this.grafo = grafo;
         setTitle("Grafo");
-        setSize(1100, 790);
+        setSize(1000, 790);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -49,7 +49,7 @@ public class Interfaz extends JFrame {
         JButton bfsButton = new JButton("BFS");
         JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
-        JButton dijkstraButton = new JButton("Diskstra desde vertice");
+        JButton dijkstraButton = new JButton("Diskstra");
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
@@ -110,10 +110,6 @@ public class Interfaz extends JFrame {
         panelGrafo.repaint();
         new Thread(() -> {
             List<Arista> mst = buscar.kruskal();
-            SwingUtilities.invokeLater(panelGrafo::repaint);
-            double pesoTotal = mst.stream().mapToDouble(Arista::getPeso).sum();
-            JOptionPane.showMessageDialog(this, "Arbol de expansion minima (Kruskal):\n"
-                    + mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
         }).start();
     }
 

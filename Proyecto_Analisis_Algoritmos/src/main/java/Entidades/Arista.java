@@ -1,5 +1,7 @@
 package Entidades;
 
+import java.awt.Color;
+
 /**
  * Clase que representa la arista entre dos vertices
  * @author equipo 
@@ -8,6 +10,7 @@ public class Arista {
     private Vertice origen;
     private Vertice destino;
     private double peso;
+    private Color estado;
     
     /**
      * constructor que inicializa la la clase arista
@@ -51,5 +54,13 @@ public class Arista {
      */
     public void setPeso(double peso) {
         this.peso = peso;
+    }
+
+    public Color getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Color estado) {
+        this.estado = estado;
     }
 }

@@ -74,6 +74,15 @@ public class Grafo {
     }
     
     /**
+     * metodo que regresa la arista utilizada
+     * @param vertice
+     * @return 
+     */
+    public List<Arista> getAristasUnicas(Vertice vertice) {
+        return adyacencias.getOrDefault(vertice, new ArrayList<>());
+    }
+    
+    /**
      * metodo que extrae todos los vertices del grafo
      * @return lista de vertices
      */
@@ -88,6 +97,10 @@ public class Grafo {
     public void formatearColores() {
         for (Vertice vertice : adyacencias.keySet()) {
             vertice.setEstado(Color.RED);
+        }
+        
+        for (Arista arista : getAristas()) {
+            arista.setEstado(Color.LIGHT_GRAY);
         }
     }
 }

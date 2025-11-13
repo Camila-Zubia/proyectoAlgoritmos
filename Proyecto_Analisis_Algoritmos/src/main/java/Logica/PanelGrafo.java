@@ -77,10 +77,10 @@ public class PanelGrafo extends JPanel {
         for (Arista a : grafo.getAristas()) {
             Vertice origen = a.getOrigen();
             Vertice destino = a.getDestino();
-            Color colorArista = origen.getEstado() != null ? origen.getEstado() : Color.LIGHT_GRAY;
+            Color colorArista = a.getEstado() != null ? a.getEstado() : Color.LIGHT_GRAY;
             g2.setColor(colorArista);
             g2.setStroke(new BasicStroke(2));
-            dibujarAristaDirigida(g2, origen.getX(), origen.getY(), destino.getX(), destino.getY());
+            dibujarArista(g2, origen.getX(), origen.getY(), destino.getX(), destino.getY());
             double peso = a.getPeso();
             if (!Double.isNaN(peso)) {
                 int medioX = (origen.getX() + destino.getX()) / 2;
@@ -117,7 +117,7 @@ public class PanelGrafo extends JPanel {
      * @param x2 coordenada x del centro de destino
      * @param y2 coordenada y del centro de destino
      */
-    private void dibujarAristaDirigida(Graphics2D g2, int x1, int y1, int x2, int y2) {
+    private void dibujarArista(Graphics2D g2, int x1, int y1, int x2, int y2) {
         double dx = x2 - x1;
         double dy = y2 - y1;
         double dist = Math.hypot(dx, dy);
@@ -129,15 +129,5 @@ public class PanelGrafo extends JPanel {
         int endX = (int) Math.round(x2 - ux * RADIO);
         int endY = (int) Math.round(y2 - uy * RADIO);
         g2.drawLine(startX, startY, endX, endY);
-        double phi = Math.toRadians(25);
-        int barb = 12;
-        double theta = Math.atan2(endY - startY, endX - startX);
-        double rho = theta + phi;
-        for (int j = 0; j < 2; j++) {
-            double x = endX - barb * Math.cos(rho);
-            double y = endY - barb * Math.sin(rho);
-            g2.drawLine(endX, endY, (int) x, (int) y);
-            rho = theta - phi;
-        }
     }
 }
