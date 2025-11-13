@@ -20,15 +20,18 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * clase que representa el frame del proyecto
+ *
  * @author equipo
  */
 public class Interfaz extends JFrame {
+
     private Grafo grafo;
     private PanelGrafo panelGrafo;
     private Algoritmos buscar;
-    
+
     /**
      * contructor que inicializa la clase
+     *
      * @param grafo grafo
      */
     public Interfaz(Grafo grafo) {
@@ -46,21 +49,21 @@ public class Interfaz extends JFrame {
         JButton bfsButton = new JButton("BFS");
         JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
-        JButton diskstrButton = new JButton("Diskstra (Camino más corto)");
+        JButton dijkstraButton = new JButton("Diskstra desde vertice");
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
         tablaButton.addActionListener(e -> mostrarTabla());
-        diskstrButton.addActionListener(e -> ejecutarDisktra());
+        dijkstraButton.addActionListener(e -> ejecutarDijkstra());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(kruskalButton);
-        buttonPanel.add(diskstrButton);
+        buttonPanel.add(dijkstraButton);
         buttonPanel.add(tablaButton);
         add(buttonPanel, BorderLayout.EAST);
     }
-    
+
     /**
      * metodo que ejecuta y prepara al algoritmo de DFS
      */
@@ -79,7 +82,7 @@ public class Interfaz extends JFrame {
                     "Recorrido DFS desde " + seleccionado.getNombre() + ": " + recorrido);
         }).start();
     }
-    
+
     /**
      * metodo que ejecuta y prepara al algoritmo de bFS
      */
@@ -98,7 +101,7 @@ public class Interfaz extends JFrame {
                     "Recorrido BFS desde " + seleccionado.getNombre() + ": " + recorrido);
         }).start();
     }
-    
+
     /**
      * metodo que ejecuta y prepara al algoritmo de Kruskal
      */
@@ -113,50 +116,26 @@ public class Interfaz extends JFrame {
                     + mst + "\n\nPeso total:" + String.format("%.2f", pesoTotal));
         }).start();
     }
-    
+
     /**
      * metodo que ejecuta y prepara al algoritmo de Disktra
      */
-    private void ejecutarDisktra() {
+    private void ejecutarDijkstra() {
         Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
         if (seleccionado == null) {
-            JOptionPane.showMessageDialog(this, "Seleccionar un vertice de inicio para Dijkstra.");
+            JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar Dijkstra.");
             return;
         }
-
         grafo.formatearColores();
         panelGrafo.repaint();
-
         new Thread(() -> {
-            Map<Vertice, Double> distancias = buscar.dijkstra(seleccionado);
-
-            //Crear una tabla con los resultados 
-            String[] columnas = {"Vertice", "Distancia desde" + seleccionado.getNombre()};
-            Object[][] datos = new Object[distancias.size()][2];
-            int i = 0;
-            for (Map.Entry<Vertice, Double> entry : distancias.entrySet()) {
-                datos[i][0] = entry.getKey().getNombre();
-                datos[i][1] = entry.getValue().isInfinite() ? "∞" : String.format("%.2f", entry.getValue());
-                i++;
-            }
-
-            JTable tabla = new JTable(datos, columnas);
-            tabla.setEnabled(false);
-            JScrollPane scrollPane = new JScrollPane(tabla);
-            scrollPane.setPreferredSize(new Dimension(300, 300));
-
-            SwingUtilities.invokeLater(() -> {
-                panelGrafo.repaint();
-                JOptionPane.showMessageDialog(this, scrollPane,
-                        "Distancias minimas despues " + seleccionado.getNombre(),
-                        JOptionPane.INFORMATION_MESSAGE);
-            });
+            buscar.dijkstra(seleccionado);
         }).start();
 
     }
-    
+
     /**
-     * 
+     *
      * metodo que ejecuta y prepara una tabla de ayacencia
      */
     private void mostrarTabla() {
@@ -203,9 +182,10 @@ public class Interfaz extends JFrame {
         JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     /**
      * metodo main para ejecutar el proyecto
+     *
      * @param args parametro de ejecucion
      */
     public static void main(String[] args) {
