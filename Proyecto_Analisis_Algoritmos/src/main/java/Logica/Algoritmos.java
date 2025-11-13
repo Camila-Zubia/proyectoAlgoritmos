@@ -207,43 +207,85 @@ public class Algoritmos {
      * @return distancias
      */
     public Map<Vertice, Double> dijkstra(Vertice origen) {
-        Map<Vertice, Double> distancias = new HashMap<>();
+        // Inicializacion de Estructuras 
+        Map<Vertice, Double> distancia = new HashMap<>();
         Map<Vertice, Vertice> previo = new HashMap<>();
-        PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancias::get));
+        Set<Vertice> visitados = new HashSet<>();
+
+        // Inicializar todas las distancias a infinito
         for (Vertice v : grafo.getVertices()) {
-            distancias.put(v, Double.POSITIVE_INFINITY);
-            previo.put(v, null);
+            distancia.put(v, Double.POSITIVE_INFINITY);
             v.setEstado(Color.RED);
 
         }
-        distancias.put(origen, 0.0);
-        cola.add(origen);
+        repintar();
+
+        distancia.put(origen, 0.0);
         origen.setEstado(Color.YELLOW);
         repintar();
+
+        PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancia::get));
+        cola.add(origen);
+
         while (!cola.isEmpty()) {
             Vertice actual = cola.poll();
+
+            if (visitados.contains(actual)) {
+                continue;
+            }
+
+            visitados.add(actual);
             actual.setEstado(Color.GREEN);
+
             repintar();
-            for (Arista a : grafo.getAristas()) {
-                if (a.getOrigen().equals(actual)) {
-                    Vertice vecino = a.getDestino();
-                    double nuevaDistancia = distancias.get(actual) + a.getPeso();
-                    if (nuevaDistancia < distancias.get(vecino)) {
-                        distancias.put(vecino, nuevaDistancia);
+            System.out.println("Visitado: " + actual.getNombre() + "(Distancia minima: " + distancia.get(actual) + ")");
+
+            //Recoremos los vecinos del vertice actual
+            for (Arista arista : grafo.getAristas()) {
+                if (arista.getOrigen().equals(actual)) {
+                    Vertice vecino = arista.getDestino();
+                    double nuevaDistancia = distancia.get(actual) + arista.getPeso();
+
+                    if (nuevaDistancia < distancia.get(vecino)) {
+                        distancia.put(vecino, nuevaDistancia);
                         previo.put(vecino, actual);
                         cola.add(vecino);
-                        vecino.setEstado(Color.YELLOW);
+
+                        vecino.setEstado(Color.ORANGE);
                         repintar();
+                        System.out.println("Actualizado " + vecino.getNombre() + "-> nueva distancia: " + nuevaDistancia);
                     }
                 }
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        for (Vertice v : grafo.getVertices()) {
-            v.setEstado(Color.CYAN);
-        }
-        origen.setEstado(Color.GREEN);
         repintar();
-        return distancias;
+
+        System.out.println("\n Diskstra completado.\nDistancias minimas desde" + origen.getNombre() + ":");
+        for (Vertice v : grafo.getVertices()) {
+            System.out.println(v.getNombre() + "->" + distancia.get(v));
+        }
+        // Crear copia final para mostrar en JOptionPane
+        final Vertice origenFinal = origen;
+        final Map<Vertice, Double> distanciasFinal = new HashMap<>(distancia);
+
+        SwingUtilities.invokeLater(() -> {
+            StringBuilder resulatado = new StringBuilder("Distancias minimas desde" + origenFinal.getNombre() + ":\n\n");
+            for (Map.Entry<Vertice, Double> entry : distanciasFinal.entrySet()) {
+                resulatado.append(String.format("%-30s : %.2f\n", entry.getKey().getNombre(), entry.getValue()));
+            }
+            JOptionPane.showMessageDialog(panel,
+                    resulatado.toString(),
+                    "Resultado de Dijkstra",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        });
+
+        return distancia;
     }
 
     /**
