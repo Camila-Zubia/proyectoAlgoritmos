@@ -14,7 +14,8 @@ import java.util.List;
 public class PanelGrafo extends JPanel {
     
     private Grafo grafo;
-    private Vertice verticeSeleccionado = null;
+    private Vertice verticeSeleccionadoOrigen = null;
+    private Vertice verticeSeleccionadoDestino = null;
     private static final int RADIO = 10;
     private Image imagenFondo;
     
@@ -31,9 +32,20 @@ public class PanelGrafo extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 Vertice vertice = getVerticeEn(e.getX(), e.getY());
                 if (vertice != null) {
-                    verticeSeleccionado = vertice;
-                    repaint();
+                    if (verticeSeleccionadoOrigen == null) {
+                        verticeSeleccionadoOrigen = vertice;
+                        verticeSeleccionadoDestino = null;
+                    }else if (verticeSeleccionadoDestino == null && !vertice.equals(verticeSeleccionadoOrigen)) {
+                        verticeSeleccionadoDestino = vertice;
+                    }else{
+                        verticeSeleccionadoOrigen = vertice;
+                        verticeSeleccionadoDestino = null;
+                    }
+                }else{
+                    verticeSeleccionadoOrigen = null;
+                    verticeSeleccionadoDestino = null;
                 }
+                repaint();
             }
         });
     }
@@ -42,8 +54,12 @@ public class PanelGrafo extends JPanel {
      * metodo que regresa el vertice seleccionado por el usuario
      * @return vertice seleccionado
      */
-    public Vertice getVerticeSeleccionado() {
-        return verticeSeleccionado;
+    public Vertice getVerticeSeleccionadoOrigen() {
+        return verticeSeleccionadoOrigen;
+    }
+    
+    public Vertice getVerticeSeleccionadoDestino() {
+        return verticeSeleccionadoDestino;
     }
     
     /**
@@ -96,9 +112,14 @@ public class PanelGrafo extends JPanel {
             g2.fillOval(v.getX() - RADIO, v.getY() - RADIO, RADIO * 2, RADIO * 2);
             g2.setColor(Color.BLACK);
             g2.drawOval(v.getX() - RADIO, v.getY() - RADIO, RADIO * 2, RADIO * 2);
-            if (v == verticeSeleccionado) {
+            if (v == verticeSeleccionadoOrigen) {
                 g2.setStroke(new BasicStroke(2));
                 g2.setColor(Color.BLUE);
+                g2.drawOval(v.getX() - RADIO - 3, v.getY() - RADIO - 3, (RADIO + 3) * 2, (RADIO + 3) * 2);
+            }
+            if (v == verticeSeleccionadoDestino) {
+                g2.setStroke(new BasicStroke(2));
+                g2.setColor(Color.MAGENTA);
                 g2.drawOval(v.getX() - RADIO - 3, v.getY() - RADIO - 3, (RADIO + 3) * 2, (RADIO + 3) * 2);
             }
             g2.setColor(Color.BLACK);

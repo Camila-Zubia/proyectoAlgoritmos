@@ -346,6 +346,78 @@ public class Algoritmos {
 
         return distancia;
     }
+    
+    public Map<Vertice, Double> dijkstraInterno(Vertice origen) {
+        // Inicializacion de Estructuras 
+        Map<Vertice, Double> distancia = new HashMap<>();
+        Set<Vertice> visitados = new HashSet<>();
+
+        // Inicializar todas las distancias a infinito
+        for (Vertice v : grafo.getVertices()) {
+            distancia.put(v, Double.POSITIVE_INFINITY);
+            v.setΠ(null);
+        }
+
+        distancia.put(origen, 0.0);
+        PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancia::get));
+        cola.add(origen);
+
+        while (!cola.isEmpty()) {
+            Vertice actual = cola.poll();
+
+            if (visitados.contains(actual)) {
+                continue;
+            }
+
+            visitados.add(actual);
+            
+            //Recoremos los vecinos del vertice actual
+            for (Arista arista : grafo.getAristasSalientes(actual)) {
+                Vertice vecino = arista.getDestino();
+                double nuevaDistancia = distancia.get(actual) + arista.getPeso();
+
+                if (nuevaDistancia < distancia.get(vecino)) {
+                    distancia.put(vecino, nuevaDistancia);
+                    vecino.setΠ(actual);
+                    cola.add(vecino);
+                }
+            }
+        }
+        return distancia;
+    }
+    
+    public List<Vertice> caminoMasCorto(Vertice destino){
+        List<Vertice> camino = new ArrayList<>();
+        Vertice actual = destino;
+        while(actual != null){
+            camino.add(actual);
+            actual = actual.getΠ();
+        }
+        Collections.reverse(camino);
+        return camino;
+    }
+    
+    public void colorearCamino(List<Vertice> camino){
+        for (int i = 0; i < camino.size() - 1; i++) {
+            Vertice u = camino.get(i);
+            Vertice v = camino.get(i+1);
+            u.setEstado(Color.GREEN);
+            for (Arista a : grafo.getAristasSalientes(u)) {
+                if (a.getDestino().equals(v)) {
+                    a.setEstado(Color.GREEN);
+                    break;
+                }
+            }
+            for (Arista aInversa : grafo.getAristasSalientes(v)) {
+                if (aInversa.getDestino().equals(u)) {
+                    aInversa.setEstado(Color.GREEN);
+                    break;
+                }
+            }
+        }
+        camino.get(camino.size() - 1).setEstado(Color.GREEN);
+        repintar();
+    }
 
     /**
      * metodo que repinta el frame para mostrar el proceso del grafo

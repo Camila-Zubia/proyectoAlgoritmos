@@ -37,7 +37,7 @@ public class Interfaz extends JFrame {
     public Interfaz(Grafo grafo) {
         this.grafo = grafo;
         setTitle("Grafo");
-        setSize(1000, 790);
+        setSize(1150, 790);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -50,17 +50,30 @@ public class Interfaz extends JFrame {
         JButton kruskalButton = new JButton("Kruskal (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
         JButton dijkstraButton = new JButton("Diskstra");
+        JButton dijkstraButton2 = new JButton("Camino más corto entre 2 vertices");
+        JButton limpiar = new JButton("Limpiar mapa");
+        dfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        kruskalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tablaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dijkstraButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dijkstraButton2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        limpiar.setAlignmentX(Component.CENTER_ALIGNMENT);
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
         tablaButton.addActionListener(e -> mostrarTabla());
         dijkstraButton.addActionListener(e -> ejecutarDijkstra());
+        dijkstraButton2.addActionListener(e -> caminoMasCorto());
+        limpiar.addActionListener(e -> limpiar());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(kruskalButton);
         buttonPanel.add(dijkstraButton);
+        buttonPanel.add(dijkstraButton2);
         buttonPanel.add(tablaButton);
+        buttonPanel.add(limpiar);
         add(buttonPanel, BorderLayout.EAST);
     }
 
@@ -68,7 +81,7 @@ public class Interfaz extends JFrame {
      * metodo que ejecuta y prepara al algoritmo de DFS
      */
     private void ejecutarDFS() {
-        Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionadoOrigen();
         if (seleccionado == null) {
             JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar DFS.");
             return;
@@ -87,7 +100,7 @@ public class Interfaz extends JFrame {
      * metodo que ejecuta y prepara al algoritmo de bFS
      */
     private void ejecutarBFS() {
-        Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionadoOrigen();
         if (seleccionado == null) {
             JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar BFS.");
             return;
@@ -117,7 +130,7 @@ public class Interfaz extends JFrame {
      * metodo que ejecuta y prepara al algoritmo de Disktra
      */
     private void ejecutarDijkstra() {
-        Vertice seleccionado = panelGrafo.getVerticeSeleccionado();
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionadoOrigen();
         if (seleccionado == null) {
             JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar Dijkstra.");
             return;
@@ -127,7 +140,29 @@ public class Interfaz extends JFrame {
         new Thread(() -> {
             buscar.dijkstra(seleccionado);
         }).start();
-
+    }
+    
+    private void caminoMasCorto() {
+        Vertice inicio = panelGrafo.getVerticeSeleccionadoOrigen();
+        Vertice fin = panelGrafo.getVerticeSeleccionadoDestino();
+        if (inicio == null || fin == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un vértice de inicio y uno de fin.");
+            return;
+        }
+        grafo.formatearColores();
+        panelGrafo.repaint();
+        new Thread(() -> {
+            buscar.dijkstraInterno(inicio);
+            List<Vertice> camino = buscar.caminoMasCorto(fin);
+            if (camino.isEmpty() || !camino.get(0).equals(inicio)) {
+                SwingUtilities.invokeLater(()->{
+                JOptionPane.showMessageDialog(this, "No hay camino");
+                });
+            }else{
+                buscar.colorearCamino(camino);
+            }
+            SwingUtilities.invokeLater(panelGrafo::repaint);
+        }).start();
     }
 
     /**
@@ -177,6 +212,11 @@ public class Interfaz extends JFrame {
         panelPrincipal.setPreferredSize(new Dimension(600, 500));
         JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void limpiar(){
+        grafo.formatearColores();
+        panelGrafo.repaint();
     }
 
     /**
