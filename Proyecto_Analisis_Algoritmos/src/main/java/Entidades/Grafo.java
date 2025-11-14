@@ -78,7 +78,7 @@ public class Grafo {
      * @param vertice
      * @return 
      */
-    public List<Arista> getAristasUnicas(Vertice vertice) {
+    public List<Arista> getAristasSalientes(Vertice vertice) {
         return adyacencias.getOrDefault(vertice, new ArrayList<>());
     }
     

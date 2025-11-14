@@ -79,7 +79,7 @@ public class Interfaz extends JFrame {
             List<Vertice> recorrido = buscar.DFS(seleccionado);
             SwingUtilities.invokeLater(panelGrafo::repaint);
             JOptionPane.showMessageDialog(this,
-                    "Recorrido DFS desde " + seleccionado.getNombre() + ": " + recorrido);
+                    "Recorrido DFS desde " + seleccionado.getNombre() + ": " + recorrido.toString());
         }).start();
     }
 
@@ -98,7 +98,7 @@ public class Interfaz extends JFrame {
             List<Vertice> recorrido = buscar.BFS(seleccionado);
             SwingUtilities.invokeLater(panelGrafo::repaint);
             JOptionPane.showMessageDialog(this,
-                    "Recorrido BFS desde " + seleccionado.getNombre() + ": " + recorrido);
+                    "Recorrido BFS desde " + seleccionado.getNombre() + ": " + recorrido.toString());
         }).start();
     }
 
@@ -274,7 +274,6 @@ public class Interfaz extends JFrame {
         grafo.agregarArista(e, ac, 40.7);
         grafo.agregarArista(e, ad, 109);
         grafo.agregarArista(e, ab, 194);
-        grafo.agregarArista(a, u, 19.8);
         grafo.agregarArista(ab, n, 54.3);
         grafo.agregarArista(ac, aa, 52.3);
         grafo.agregarArista(t, h, 104);

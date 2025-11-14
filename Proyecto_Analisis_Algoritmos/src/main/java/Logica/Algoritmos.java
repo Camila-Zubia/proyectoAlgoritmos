@@ -59,9 +59,25 @@ public class Algoritmos {
         actual.setEstado(Color.YELLOW);
         repintar();
         orden.add(actual);
-        for (Vertice vecino : grafo.getVecinos(actual)) {
-            if (!visitado.contains(vecino)) {
-                apoyoDFS(vecino, visitado, orden);
+        for (Arista a : grafo.getAristasSalientes(actual)) {
+            Vertice v = a.getDestino();
+            if (!visitado.contains(v)) {
+                a.setEstado(Color.YELLOW);
+                for (Arista aInversa : grafo.getAristasSalientes(v)) {
+                    if (aInversa.getDestino().equals(actual)) {
+                        aInversa.setEstado(Color.YELLOW);
+                        break;
+                    }
+                }
+                repintar();
+                apoyoDFS(v, visitado, orden);
+                a.setEstado(Color.GREEN);
+                for (Arista aInversa : grafo.getAristasSalientes(v)) {
+                    if (aInversa.getDestino().equals(actual)) {
+                        aInversa.setEstado(Color.GREEN);
+                        break;
+                    }
+                }
             }
         }
         actual.setEstado(Color.GREEN);
@@ -86,16 +102,29 @@ public class Algoritmos {
             while (!cola.isEmpty()) {
                 Vertice actual = cola.poll();
                 orden.add(actual);
-                for (Vertice vecino : grafo.getVecinos(actual)) {
+                List<Arista> aristasUsadas = new ArrayList<>();
+                for (Arista a : grafo.getAristasSalientes(actual)) {
+                    Vertice vecino = a.getDestino();
                     if (!visitado.contains(vecino)) {
+                        a.setEstado(Color.YELLOW);
+                        aristasUsadas.add(a);
+                        for (Arista aInversa : grafo.getAristasSalientes(vecino)) {
+                            if (aInversa.getDestino().equals(actual)) {
+                                aInversa.setEstado(Color.YELLOW);
+                                aristasUsadas.add(aInversa);
+                                break;
+                            }
+                        }
                         visitado.add(vecino);
                         cola.add(vecino);
                         vecino.setEstado(Color.YELLOW);
                         repintar();
                     }
                 }
-
                 actual.setEstado(Color.GREEN);
+                for(Arista a : aristasUsadas){
+                    a.setEstado(Color.GREEN);
+                }
                 repintar();
             }
             Vertice noVisitado = null;
@@ -118,7 +147,6 @@ public class Algoritmos {
 
     /**
      * metodo que representa el algoritmo de Kruskal
-     *
      * @return arbol de esparcimiento
      */
     public List<Arista> kruskal() {
@@ -149,7 +177,7 @@ public class Algoritmos {
         repintar();
 
         // ordenar aristas por peso
-        aristas.sort(Comparator.comparingDouble(Arista::getPeso));
+        aristasUnicas.sort(Comparator.comparingDouble(Arista::getPeso));
 
         // Recorrer las aristas en orden creciente
         for (Arista a : aristasUnicas) {
@@ -159,10 +187,13 @@ public class Algoritmos {
             //Mostrar que la arista esta siendo evaluada
             u.setEstado(Color.YELLOW);
             v.setEstado(Color.YELLOW);
-            colorVertice = Color.YELLOW;
+            for (Arista aInversa : grafo.getAristasSalientes(v)) {
+                if (aInversa.getDestino().equals(u)) {
+                    aInversa.setEstado(Color.YELLOW);
+                    break;
+                }
+            }
             repintar();
-            System.out.println("Evaluando arista: " + u.getNombre() + "-" + v.getNombre()
-                    + "(Peso: " + a.getPeso() + ")");
 
             // Verificar si pertenece a diferentes conjuntos
             if (find(padre, u) != find(padre, v)) {
@@ -180,7 +211,7 @@ public class Algoritmos {
                 System.out.println("Arista destacada (formaria ciclo)");
             }
             a.setEstado(colorVertice);
-            for (Arista aInversa : grafo.getAristasUnicas(v)) {
+            for (Arista aInversa : grafo.getAristasSalientes(v)) {
                 if (aInversa.getDestino().equals(u)) {
                     aInversa.setEstado(colorVertice);
                     break;
@@ -210,14 +241,13 @@ public class Algoritmos {
     public Map<Vertice, Double> dijkstra(Vertice origen) {
         // Inicializacion de Estructuras 
         Map<Vertice, Double> distancia = new HashMap<>();
-        Map<Vertice, Vertice> previo = new HashMap<>();
         Set<Vertice> visitados = new HashSet<>();
 
         // Inicializar todas las distancias a infinito
         for (Vertice v : grafo.getVertices()) {
             distancia.put(v, Double.POSITIVE_INFINITY);
             v.setEstado(Color.RED);
-
+            v.setΠ(null);
         }
         repintar();
 
@@ -237,25 +267,57 @@ public class Algoritmos {
 
             visitados.add(actual);
             actual.setEstado(Color.GREEN);
-
-            repintar();
-            System.out.println("Visitado: " + actual.getNombre() + "(Distancia minima: " + distancia.get(actual) + ")");
-
-            //Recoremos los vecinos del vertice actual
-            for (Arista arista : grafo.getAristas()) {
-                if (arista.getOrigen().equals(actual)) {
-                    Vertice vecino = arista.getDestino();
-                    double nuevaDistancia = distancia.get(actual) + arista.getPeso();
-
-                    if (nuevaDistancia < distancia.get(vecino)) {
-                        distancia.put(vecino, nuevaDistancia);
-                        previo.put(vecino, actual);
-                        cola.add(vecino);
-
-                        vecino.setEstado(Color.ORANGE);
-                        repintar();
-                        System.out.println("Actualizado " + vecino.getNombre() + "-> nueva distancia: " + nuevaDistancia);
+            
+            Vertice padre = actual.getΠ();
+            if (padre != null) {
+                for (Arista a : grafo.getAristasSalientes(padre)) {
+                    if (a.getDestino().equals(actual)) {
+                        a.setEstado(Color.GREEN);
+                        break;
                     }
+                }
+                for (Arista aInversa : grafo.getAristasSalientes(actual)) {
+                    if (aInversa.getDestino().equals(padre)) {
+                        aInversa.setEstado(Color.GREEN);
+                        break;
+                    }
+                }
+            }
+            repintar();
+            //Recoremos los vecinos del vertice actual
+            for (Arista arista : grafo.getAristasSalientes(actual)) {
+                Vertice vecino = arista.getDestino();
+                double nuevaDistancia = distancia.get(actual) + arista.getPeso();
+
+                if (nuevaDistancia < distancia.get(vecino)) {
+                    Vertice padreAntiguo = vecino.getΠ(); //
+                    if (padreAntiguo != null) {
+                        for (Arista aristaAntigua : grafo.getAristasSalientes(padreAntiguo)) {
+                            if (aristaAntigua.getDestino().equals(vecino)) {
+                                aristaAntigua.setEstado(Color.LIGHT_GRAY);
+                                break;
+                            }
+                        }
+                        for (Arista aInversa : grafo.getAristasSalientes(vecino)) {
+                            if (aInversa.getDestino().equals(padreAntiguo)) {
+                                aInversa.setEstado(Color.LIGHT_GRAY);
+                                break;
+                            }
+                        }
+                    }
+                    distancia.put(vecino, nuevaDistancia);
+                    vecino.setΠ(actual);
+                    cola.add(vecino);
+
+                    arista.setEstado(Color.YELLOW);
+                    for (Arista aInversa : grafo.getAristasSalientes(vecino)) {
+                        if (aInversa.getDestino().equals(actual)) {
+                            aInversa.setEstado(Color.YELLOW);
+                            break;
+                        }
+                    }
+                    vecino.setEstado(Color.YELLOW);
+                    repintar();
                 }
             }
             try {
@@ -266,10 +328,6 @@ public class Algoritmos {
         }
         repintar();
 
-        System.out.println("\n Diskstra completado.\nDistancias minimas desde" + origen.getNombre() + ":");
-        for (Vertice v : grafo.getVertices()) {
-            System.out.println(v.getNombre() + "->" + distancia.get(v));
-        }
         // Crear copia final para mostrar en JOptionPane
         final Vertice origenFinal = origen;
         final Map<Vertice, Double> distanciasFinal = new HashMap<>(distancia);
@@ -295,7 +353,7 @@ public class Algoritmos {
     private void repintar() {
         SwingUtilities.invokeLater(panel::repaint);
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
