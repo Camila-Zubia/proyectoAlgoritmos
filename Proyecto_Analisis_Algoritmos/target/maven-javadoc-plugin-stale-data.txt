@@ -1,0 +1,46 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+--no-fonts
+-encoding
+'UTF-8'
+-protected
+--release
+23
+-sourcepath
+'C:/Users/lagar/OneDrive/Documentos/GitHub/proyectoAlgoritmos/Proyecto_Analisis_Algoritmos/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/lagar/OneDrive/Documentos/GitHub/proyectoAlgoritmos/Proyecto_Analisis_Algoritmos/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Proyecto_Analisis_Algoritmos 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Proyecto_Analisis_Algoritmos 1.0-SNAPSHOT API'
+Entidades
+InterfazGrafica
+Logica
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\src\main\java = 1762793561515
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\allclasses-index.html = 1763303473730
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\allpackages-index.html = 1763303473736
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\element-list = 1763303473530
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\help-doc.html = 1763303473792
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\index-all.html = 1763303473774
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\index.html = 1763303473699
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\member-search-index.js = 1763303473750
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\module-search-index.js = 1763303473740
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\overview-summary.html = 1763303473784
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\overview-tree.html = 1763303473691
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\package-search-index.js = 1763303473743
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\search.html = 1763303473780
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\serialized-form.html = 1763303473601
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\tag-search-index.js = 1763303473753
+C:\Users\lagar\OneDrive\Documentos\GitHub\proyectoAlgoritmos\Proyecto_Analisis_Algoritmos\target\reports\apidocs\type-search-index.js = 1763303473747

@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -41,6 +42,7 @@ public class Interfaz extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
+        setResizable(false);
         panelGrafo = new PanelGrafo(grafo);
         buscar = new Algoritmos(grafo, panelGrafo);
         add(panelGrafo, BorderLayout.CENTER);
@@ -52,6 +54,7 @@ public class Interfaz extends JFrame {
         JButton dijkstraButton = new JButton("Diskstra");
         JButton dijkstraButton2 = new JButton("Camino más corto entre 2 vertices");
         JButton limpiar = new JButton("Limpiar mapa");
+        JButton complejidadButton = new JButton("complejidad temporal de los algoritmos");
         dfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         bfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         kruskalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -59,6 +62,7 @@ public class Interfaz extends JFrame {
         dijkstraButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         dijkstraButton2.setAlignmentX(Component.CENTER_ALIGNMENT);
         limpiar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        complejidadButton.setAlignmentX(CENTER_ALIGNMENT);
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
@@ -66,6 +70,7 @@ public class Interfaz extends JFrame {
         dijkstraButton.addActionListener(e -> ejecutarDijkstra());
         dijkstraButton2.addActionListener(e -> caminoMasCorto());
         limpiar.addActionListener(e -> limpiar());
+        complejidadButton.addActionListener(e -> Tn());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
@@ -74,6 +79,7 @@ public class Interfaz extends JFrame {
         buttonPanel.add(dijkstraButton2);
         buttonPanel.add(tablaButton);
         buttonPanel.add(limpiar);
+        buttonPanel.add(complejidadButton);
         add(buttonPanel, BorderLayout.EAST);
     }
 
@@ -213,12 +219,23 @@ public class Interfaz extends JFrame {
         JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-    
+   
+    /**
+     * metodo que formatea el grafo al estado original
+     */
     public void limpiar(){
         grafo.formatearColores();
         panelGrafo.repaint();
     }
-
+    
+    public void Tn(){
+        JOptionPane.showMessageDialog(null, """
+                                            DFS T(n) = 8n^2 + 18n + 8s
+                                            BFS T(n) = 5n^4 + 14n^3 + 12n^2 + 10n + 11
+                                            Kruscal T(n) = 17n^2 + 28n + 13
+                                            Dijkstra T(n) = 24n^2 + 25n + 19 
+                                            Ruta mas corta T(n) = 24n^2 + 27n + 23""", "Complejidad TemporaL",INFORMATION_MESSAGE);
+    }
     /**
      * metodo main para ejecutar el proyecto
      *

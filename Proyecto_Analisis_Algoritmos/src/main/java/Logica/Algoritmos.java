@@ -36,9 +36,9 @@ public class Algoritmos {
      * @return el orden en como se recorrio
      */
     public List<Vertice> DFS(Vertice verticeInicio) {
-        List<Vertice> orden = new ArrayList<>();
-        Set<Vertice> visitado = new HashSet<>();
-        apoyoDFS(verticeInicio, visitado, orden);
+        List<Vertice> orden = new ArrayList<>();//1
+        Set<Vertice> visitado = new HashSet<>();//1
+        apoyoDFS(verticeInicio, visitado, orden);//
         for (Vertice v : grafo.getVertices()) {
             if (!visitado.contains(v)) {
                 apoyoDFS(v, visitado, orden);
@@ -239,32 +239,24 @@ public class Algoritmos {
      * @return distancias
      */
     public Map<Vertice, Double> dijkstra(Vertice origen) {
-        // Inicializacion de Estructuras 
         Map<Vertice, Double> distancia = new HashMap<>();
         Set<Vertice> visitados = new HashSet<>();
-
-        // Inicializar todas las distancias a infinito
         for (Vertice v : grafo.getVertices()) {
             distancia.put(v, Double.POSITIVE_INFINITY);
             v.setEstado(Color.RED);
             v.setΠ(null);
         }
         repintar();
-
         distancia.put(origen, 0.0);
         origen.setEstado(Color.YELLOW);
         repintar();
-
         PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancia::get));
         cola.add(origen);
-
         while (!cola.isEmpty()) {
             Vertice actual = cola.poll();
-
             if (visitados.contains(actual)) {
                 continue;
             }
-
             visitados.add(actual);
             actual.setEstado(Color.GREEN);
             
@@ -284,7 +276,6 @@ public class Algoritmos {
                 }
             }
             repintar();
-            //Recoremos los vecinos del vertice actual
             for (Arista arista : grafo.getAristasSalientes(actual)) {
                 Vertice vecino = arista.getDestino();
                 double nuevaDistancia = distancia.get(actual) + arista.getPeso();
@@ -327,8 +318,6 @@ public class Algoritmos {
             }
         }
         repintar();
-
-        // Crear copia final para mostrar en JOptionPane
         final Vertice origenFinal = origen;
         final Map<Vertice, Double> distanciasFinal = new HashMap<>(distancia);
 
@@ -346,18 +335,18 @@ public class Algoritmos {
 
         return distancia;
     }
-    
+    /**
+     * metodo que simula un dijkstra de manera interna
+     * @param origen vertice origen
+     * @return dintancia
+     */
     public Map<Vertice, Double> dijkstraInterno(Vertice origen) {
-        // Inicializacion de Estructuras 
         Map<Vertice, Double> distancia = new HashMap<>();
         Set<Vertice> visitados = new HashSet<>();
-
-        // Inicializar todas las distancias a infinito
         for (Vertice v : grafo.getVertices()) {
             distancia.put(v, Double.POSITIVE_INFINITY);
             v.setΠ(null);
         }
-
         distancia.put(origen, 0.0);
         PriorityQueue<Vertice> cola = new PriorityQueue<>(Comparator.comparingDouble(distancia::get));
         cola.add(origen);
@@ -397,6 +386,10 @@ public class Algoritmos {
         return camino;
     }
     
+    /**
+     * metodo que colorea el camino 
+     * @param camino lista de vertices
+     */
     public void colorearCamino(List<Vertice> camino){
         for (int i = 0; i < camino.size() - 1; i++) {
             Vertice u = camino.get(i);
@@ -420,14 +413,15 @@ public class Algoritmos {
     }
 
     /**
+     * T(n) = 5
      * metodo que repinta el frame para mostrar el proceso del grafo
      */
     private void repintar() {
-        SwingUtilities.invokeLater(panel::repaint);
+        SwingUtilities.invokeLater(panel::repaint);//2
         try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            System.out.println(e);
+            Thread.sleep(500);//1
+        } catch (InterruptedException e) {//1
+            System.out.println(e);//1
         }
     }
 
