@@ -55,11 +55,19 @@ public class Arista {
     public void setPeso(double peso) {
         this.peso = peso;
     }
-
+    
+    /**
+     * metodo para obtener el estado de la arista
+     * @return estado de la arista
+     */
     public Color getEstado() {
         return estado;
     }
-
+    
+    /**
+     * metodo para setear el estado de la arista
+     * @param estado nuevo estado de la aristas
+     */
     public void setEstado(Color estado) {
         this.estado = estado;
     }

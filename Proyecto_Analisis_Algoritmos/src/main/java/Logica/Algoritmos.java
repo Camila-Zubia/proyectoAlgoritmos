@@ -375,6 +375,11 @@ public class Algoritmos {
         return distancia;
     }
     
+    /**
+     * metodo para hacer el camino
+     * @param destino vertice destino
+     * @return camino
+     */
     public List<Vertice> caminoMasCorto(Vertice destino){
         List<Vertice> camino = new ArrayList<>();
         Vertice actual = destino;
@@ -419,7 +424,7 @@ public class Algoritmos {
     private void repintar() {
         SwingUtilities.invokeLater(panel::repaint);//2
         try {
-            Thread.sleep(500);//1
+            Thread.sleep(200);//1
         } catch (InterruptedException e) {//1
             System.out.println(e);//1
         }

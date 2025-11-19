@@ -75,8 +75,8 @@ public class Grafo {
     
     /**
      * metodo que regresa la arista utilizada
-     * @param vertice
-     * @return 
+     * @param vertice verice
+     * @return ayacencia
      */
     public List<Arista> getAristasSalientes(Vertice vertice) {
         return adyacencias.getOrDefault(vertice, new ArrayList<>());

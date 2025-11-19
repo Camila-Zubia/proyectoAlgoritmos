@@ -13,11 +13,11 @@ import java.util.List;
  */
 public class PanelGrafo extends JPanel {
     
-    private Grafo grafo;
-    private Vertice verticeSeleccionadoOrigen = null;
-    private Vertice verticeSeleccionadoDestino = null;
-    private static final int RADIO = 10;
-    private Image imagenFondo;
+    private final Grafo grafo;// grafo
+    private Vertice verticeSeleccionadoOrigen = null;//vertice origen
+    private Vertice verticeSeleccionadoDestino = null;// vertice destino
+    private static final int RADIO = 10; // radio
+    private final Image imagenFondo; // imagen del mapa
     
     /**
      * contruxtor que inicializa la clase y muestra el grafo visualmente
@@ -58,6 +58,10 @@ public class PanelGrafo extends JPanel {
         return verticeSeleccionadoOrigen;
     }
     
+    /**
+     * metodo que regresa el vertice destino seleccionado por el usuario
+     * @return vertice seleccionado
+     */
     public Vertice getVerticeSeleccionadoDestino() {
         return verticeSeleccionadoDestino;
     }

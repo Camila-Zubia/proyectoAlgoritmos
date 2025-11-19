@@ -26,9 +26,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Interfaz extends JFrame {
 
-    private Grafo grafo;
-    private PanelGrafo panelGrafo;
-    private Algoritmos buscar;
+    private final Grafo grafo;// grafo
+    private final PanelGrafo panelGrafo;// panel del grafo
+    private final Algoritmos buscar; // algoritmos de busqueda
 
     /**
      * contructor que inicializa la clase
@@ -228,6 +228,9 @@ public class Interfaz extends JFrame {
         panelGrafo.repaint();
     }
     
+    /**
+     * metodo que invoca el mensaje de los T(n)
+     */
     public void Tn(){
         JOptionPane.showMessageDialog(null, """
                                             DFS T(n) = 8n^2 + 18n + 8s
