@@ -73,10 +73,7 @@ public class Algoritmos {
                 apoyoDFS(v, visitado, orden);
                 a.setEstado(Color.GREEN);
                 for (Arista aInversa : grafo.getAristasSalientes(v)) {
-                    if (aInversa.getDestino().equals(actual)) {
-                        aInversa.setEstado(Color.GREEN);
-                        break;
-                    }
+                    aInversa.setEstado(Color.GREEN);
                 }
             }
         }

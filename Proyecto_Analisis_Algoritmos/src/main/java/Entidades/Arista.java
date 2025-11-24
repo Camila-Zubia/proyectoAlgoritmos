@@ -71,4 +71,12 @@ public class Arista {
     public void setEstado(Color estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "Arista{" +
+                "origen=" + origen +
+                ", destino=" + destino +
+                '}';
+    }
 }

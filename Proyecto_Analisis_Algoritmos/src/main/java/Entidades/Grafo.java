@@ -103,4 +103,11 @@ public class Grafo {
             arista.setEstado(Color.LIGHT_GRAY);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Grafo{" +
+                "adyacencias=" + adyacencias +
+                '}';
+    }
 }

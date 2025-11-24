@@ -122,4 +122,9 @@ public class Vertice {
     public void setΠ(Vertice π) {
         this.π = π;
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }
