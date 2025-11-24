@@ -94,36 +94,50 @@ public class Algoritmos {
         List<Vertice> orden = new ArrayList<>();
         Set<Vertice> visitado = new HashSet<>();
         Queue<Vertice> cola = new LinkedList<>();
+        List<Vertice> capaActual = new ArrayList<>();
         visitado.add(verticeInicio);
         cola.add(verticeInicio);
         verticeInicio.setEstado(Color.YELLOW);
         repintar();
+
         while (true) {
             while (!cola.isEmpty()) {
-                Vertice actual = cola.poll();
-                orden.add(actual);
-                List<Arista> aristasUsadas = new ArrayList<>();
-                for (Arista a : grafo.getAristasSalientes(actual)) {
-                    Vertice vecino = a.getDestino();
-                    if (!visitado.contains(vecino)) {
-                        a.setEstado(Color.YELLOW);
-                        aristasUsadas.add(a);
-                        for (Arista aInversa : grafo.getAristasSalientes(vecino)) {
-                            if (aInversa.getDestino().equals(actual)) {
-                                aInversa.setEstado(Color.YELLOW);
-                                aristasUsadas.add(aInversa);
-                                break;
-                            }
-                        }
-                        visitado.add(vecino);
-                        cola.add(vecino);
-                        vecino.setEstado(Color.YELLOW);
-                        repintar();
-                    }
+                int tamañoCapa = cola.size();
+                for (int i = 0; i < tamañoCapa; i++) {
+                    Vertice actual = cola.poll();
+                    capaActual.add(actual);
+                    orden.add(actual);
                 }
-                actual.setEstado(Color.GREEN);
-                for(Arista a : aristasUsadas){
-                    a.setEstado(Color.GREEN);
+                for (Vertice actual : capaActual) {
+                    List<Arista> aristasUsadas = new ArrayList<>();
+                    for (Arista a : grafo.getAristasSalientes(actual)) {
+                        Vertice vecino = a.getDestino();
+                        if (!visitado.contains(vecino)) {
+                            a.setEstado(Color.YELLOW);
+                            aristasUsadas.add(a);
+                            for (Arista aInversa : grafo.getAristasSalientes(vecino)) {
+                                if (aInversa.getDestino().equals(actual)) {
+                                    aInversa.setEstado(Color.YELLOW);
+                                    aristasUsadas.add(aInversa);
+                                    break;
+                                }
+                            }
+                            visitado.add(vecino);
+                            cola.add(vecino);
+                            vecino.setEstado(Color.YELLOW);
+                            repintar();
+                        }
+                    }
+                    for (Arista a : aristasUsadas) {
+                        a.setEstado(Color.GREEN);
+                    }
+                    actual.setEstado(Color.GREEN);
+                    repintar();
+                }
+                for (Vertice v : capaActual) {
+                    for (Arista a : grafo.getAristasSalientes(v)) {
+                        a.setEstado(Color.GREEN);
+                    }
                 }
                 repintar();
             }
