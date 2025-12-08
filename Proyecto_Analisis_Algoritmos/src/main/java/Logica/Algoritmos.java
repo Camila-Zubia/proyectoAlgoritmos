@@ -1,5 +1,4 @@
 package Logica;
-
 import Entidades.Arista;
 import Entidades.Grafo;
 import Entidades.Vertice;
