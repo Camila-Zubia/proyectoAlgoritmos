@@ -487,5 +487,134 @@ public class Algoritmos {
             padre.put(ra, rb);
         }
     }
+    
+    public List<Arista> prim(Vertice inicio) {
+        List<Arista> mst = new ArrayList<>();
+        Set<Vertice> visitados = new HashSet<>();
+        PriorityQueue<Arista> pq = new PriorityQueue<>(Comparator.comparingDouble(Arista::getPeso));
+        visitados.add(inicio);
+        inicio.setEstado(Color.YELLOW);
+        repintar();
+        for (Arista a : grafo.getAristasSalientes(inicio)) {
+            pq.add(a);
+            a.setEstado(Color.YELLOW);
+        }
+        repintar();
+
+        while (visitados.size() < grafo.getVertices().size() && !pq.isEmpty()) {
+            Arista menor = pq.poll();
+            Vertice u = menor.getOrigen();
+            Vertice v = menor.getDestino();
+            if (visitados.contains(u) && visitados.contains(v)) {
+                menor.setEstado(Color.CYAN);
+                continue;
+            }
+            mst.add(menor);
+            menor.setEstado(Color.GREEN);
+            Vertice nuevo = visitados.contains(u) ? v : u;
+            nuevo.setEstado(Color.GREEN);
+            visitados.add(nuevo);
+            repintar();
+            for (Arista a : grafo.getAristasSalientes(nuevo)) {
+                if (!visitados.contains(a.getDestino())) {
+                    a.setEstado(Color.YELLOW);
+                    pq.add(a);
+                }
+            }
+            repintar();
+        }
+        return mst;
+    }
+    
+    public List<Arista> boruvka() {
+        List<Arista> mst = new ArrayList<>();
+        Map<Vertice, Vertice> padre = new HashMap<>();
+        for (Vertice v : grafo.getVertices()) {
+            padre.put(v, v);
+            v.setEstado(Color.RED);
+        }
+        repintar();
+        int numComponentes = grafo.getVertices().size();
+        while (numComponentes > 1) {
+            Map<Vertice, Arista> mejor = new HashMap<>();
+            for (Arista a : grafo.getAristas()) {
+                Vertice u = find(padre, a.getOrigen());
+                Vertice v = find(padre, a.getDestino());
+
+                if (u != v) {
+                    if (!mejor.containsKey(u) || a.getPeso() < mejor.get(u).getPeso()) mejor.put(u, a);
+                    if (!mejor.containsKey(v) || a.getPeso() < mejor.get(v).getPeso()) mejor.put(v, a);
+                }
+            }
+            for (Arista a : mejor.values()) {
+                Vertice u = find(padre, a.getOrigen());
+                Vertice v = find(padre, a.getDestino());
+
+                if (u != v) {
+                    mst.add(a);
+                    union(padre, u, v);
+                    numComponentes--;
+
+                    a.getOrigen().setEstado(Color.GREEN);
+                    a.getDestino().setEstado(Color.GREEN);
+                    a.setEstado(Color.GREEN);
+                    repintar();
+                }
+            }
+        }
+        return mst;
+    }
+    
+    public Map<Vertice, Double> bellmanFord(Vertice origen) {
+        Map<Vertice, Double> distancia = new HashMap<>();
+
+        for (Vertice v : grafo.getVertices()) {
+            distancia.put(v, Double.POSITIVE_INFINITY);
+            v.setΠ(null);
+            v.setEstado(Color.RED);
+        }
+        repintar();
+
+        distancia.put(origen, 0.0);
+        origen.setEstado(Color.YELLOW);
+        repintar();
+
+        int V = grafo.getVertices().size();
+        List<Arista> aristas = grafo.getAristas();
+
+        for (int i = 1; i < V; i++) {
+            for (Arista a : aristas) {
+                Vertice u = a.getOrigen();
+                Vertice v = a.getDestino();
+                double nueva = distancia.get(u) + a.getPeso();
+
+                if (nueva < distancia.get(v)) {
+                    distancia.put(v, nueva);
+                    v.setΠ(u);
+
+                    u.setEstado(Color.YELLOW);
+                    v.setEstado(Color.YELLOW);
+                    a.setEstado(Color.YELLOW);
+                    repintar();
+                }
+            }
+        }
+        for (Arista a : aristas) {
+            Vertice u = a.getOrigen();
+            Vertice v = a.getDestino();
+            if (distancia.get(u) + a.getPeso() < distancia.get(v)) {
+                JOptionPane.showMessageDialog(null, 
+                   "Existe ciclo negativo en el grafo");
+                return distancia;
+            }
+        }
+
+        for (Vertice v : distancia.keySet()) {
+            v.setEstado(Color.GREEN);
+        }
+        repintar();
+
+        return distancia;
+    }
 
 }

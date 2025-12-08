@@ -50,6 +50,9 @@ public class Interfaz extends JFrame {
         JButton dfsButton = new JButton("DFS");
         JButton bfsButton = new JButton("BFS");
         JButton kruskalButton = new JButton("Kruskal (MST)");
+        JButton PrimButton = new JButton("Prim (MST)");
+        JButton BoruvkaButton = new JButton("Boruvka (MST)");
+        JButton BellManFordButton = new JButton("BellManFord (MST)");
         JButton tablaButton = new JButton("Mostrar tabla");
         JButton dijkstraButton = new JButton("Diskstra");
         JButton dijkstraButton2 = new JButton("Camino más corto entre 2 vertices");
@@ -58,6 +61,9 @@ public class Interfaz extends JFrame {
         dfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         bfsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         kruskalButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        PrimButton.setAlignmentX(CENTER_ALIGNMENT);
+        BoruvkaButton.setAlignmentX(CENTER_ALIGNMENT);
+        BellManFordButton.setAlignmentX(CENTER_ALIGNMENT);
         tablaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         dijkstraButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         dijkstraButton2.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -66,15 +72,21 @@ public class Interfaz extends JFrame {
         dfsButton.addActionListener(e -> ejecutarDFS());
         bfsButton.addActionListener(e -> ejecutarBFS());
         kruskalButton.addActionListener(e -> ejecutarKruskal());
-        tablaButton.addActionListener(e -> mostrarTabla());
+        PrimButton.addActionListener(e -> ejecutarPrim());
+        BoruvkaButton.addActionListener(e -> ejecutarBoruvka());
+        BellManFordButton.addActionListener(e -> ejecutarBellManFord());
         dijkstraButton.addActionListener(e -> ejecutarDijkstra());
         dijkstraButton2.addActionListener(e -> caminoMasCorto());
+        tablaButton.addActionListener(e -> mostrarTabla());
         limpiar.addActionListener(e -> limpiar());
         complejidadButton.addActionListener(e -> Tn());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(bfsButton);
         buttonPanel.add(dfsButton);
         buttonPanel.add(kruskalButton);
+        buttonPanel.add(PrimButton);
+        buttonPanel.add(BoruvkaButton);
+        buttonPanel.add(BellManFordButton);
         buttonPanel.add(dijkstraButton);
         buttonPanel.add(dijkstraButton2);
         buttonPanel.add(tablaButton);
@@ -219,7 +231,53 @@ public class Interfaz extends JFrame {
         JOptionPane.showMessageDialog(this, panelPrincipal, "Matriz de Adyacencia",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-   
+    
+    private void ejecutarPrim() {
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionadoOrigen();
+        if (seleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar Prim.");
+            return;
+        }
+        grafo.formatearColores();
+        panelGrafo.repaint();
+
+        new Thread(() -> {
+            List<Arista> mst = buscar.prim(seleccionado);
+            SwingUtilities.invokeLater(panelGrafo::repaint);
+            JOptionPane.showMessageDialog(this, 
+                "Árbol de expansión mínima (Prim) generado desde " + seleccionado.getNombre());
+        }).start();
+    }
+    
+    private void ejecutarBoruvka() {
+        grafo.formatearColores();
+        panelGrafo.repaint();
+
+        new Thread(() -> {
+            List<Arista> mst = buscar.boruvka();
+            SwingUtilities.invokeLater(panelGrafo::repaint);
+            JOptionPane.showMessageDialog(this, 
+                "Árbol de expansión mínima generado con Borůvka");
+        }).start();
+    }
+    
+    private void ejecutarBellManFord() {
+        Vertice seleccionado = panelGrafo.getVerticeSeleccionadoOrigen();
+        if (seleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un vértice para iniciar Bellman-Ford.");
+            return;
+        }
+        grafo.formatearColores();
+        panelGrafo.repaint();
+
+        new Thread(() -> {
+            buscar.bellmanFord(seleccionado);
+            SwingUtilities.invokeLater(panelGrafo::repaint);
+            JOptionPane.showMessageDialog(this, 
+                "Bellman-Ford ejecutado desde " + seleccionado.getNombre());
+        }).start();
+    }
+
     /**
      * metodo que formatea el grafo al estado original
      */
